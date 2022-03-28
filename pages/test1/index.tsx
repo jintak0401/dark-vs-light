@@ -3,14 +3,14 @@ import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
 import { AppDispatch } from '@app/store';
-import { getUserAns, setReady } from '@features/testStateSlice';
+import { getUserAns, initTest, setReady } from '@features/testStateSlice';
 import { isSameList } from '@lib/utils';
 import styles from '@styles/test.module.scss';
 import { useRouter } from 'next/router';
 
 type Props = StateProps & DispatchProps;
 
-const Test1 = ({ theme, onChangeTheme, userAns, onSetReady }: Props) => {
+const Test1 = ({ theme, onChangeTheme, userAns, onSetReady, onInitTest }: Props) => {
 	const router = useRouter();
 	const questionSet = ['비보', '바보', '바뵤', '뱌보', '뱌뵤', '바보'];
 	const ansSet = [1, 5];
@@ -28,6 +28,7 @@ const Test1 = ({ theme, onChangeTheme, userAns, onSetReady }: Props) => {
 
 	useEffect(() => {
 		onChangeTheme(ThemeEnum.Current);
+		onInitTest();
 		onSetReady(false);
 	}, []);
 
@@ -72,11 +73,13 @@ const mapStateToProps = (state: RootState) => ({
 interface DispatchProps {
 	onChangeTheme: (theme: ThemeEnum) => void;
 	onSetReady: (ready: boolean) => void;
+	onInitTest: () => void;
 }
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
 	onChangeTheme: (theme: ThemeEnum) => dispatch(changeTheme(theme)),
 	onSetReady: (ready: boolean) => dispatch(setReady(ready)),
+	onInitTest: () => dispatch(initTest()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Test1);

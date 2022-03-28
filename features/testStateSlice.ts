@@ -11,8 +11,8 @@ interface TestState {
 	testAns: number[];
 	testNum: number;
 	fontType: FontTypeEnum;
-	start: Date;
-	end: Date;
+	start: string;
+	end: string;
 	questionSet: string[];
 	ready: boolean;
 }
@@ -22,8 +22,8 @@ const initialState: TestState = {
 	testAns: [],
 	testNum: 0,
 	fontType: FontTypeEnum.Regular,
-	start: new Date(),
-	end: new Date(),
+	start: '',
+	end: '',
 	questionSet: [],
 	ready: false,
 };
@@ -62,11 +62,11 @@ const getResultAns = createSelector(
 	[(state: TestState) => state],
 	(state: TestState) => {
 		return {
-			ansButNotPick: state.testAns?.filter(
-				(x: number) => !state.userAns?.includes(x)
+			ansButNotPick: state.testAns.filter(
+				(x: number) => !state.userAns.includes(x)
 			).length,
-			notAnsButPick: state.userAns?.filter(
-				(x: number) => !state.testAns?.includes(x)
+			notAnsButPick: state.userAns.filter(
+				(x: number) => !state.testAns.includes(x)
 			).length,
 		};
 	}
@@ -77,7 +77,7 @@ const getRecordResultDataExceptMode = createSelector(
 	(state: TestState) => {
 		return {
 			testNum: Math.floor(state.testNum / 2),
-			resultTime: +state.end - +state.start,
+			resultTime: (state.end && state.start) ? +(new Date(JSON.parse(state.end || JSON.stringify(new Date())))) - +(new Date(JSON.stringify(state.start|| JSON.stringify(new Date())))): 0,
 			resultAns: getResultAns(state),
 		};
 	}
@@ -99,11 +99,10 @@ const testStateSlice = createSlice({
 			state.testAns = payload;
 		},
 		setStart: (state) => {
-			state.start = new Date();
-			console.log('setStart');
+			state.start = JSON.stringify(new Date());
 		},
 		setEnd: (state) => {
-			state.end = new Date();
+			state.end = JSON.stringify(new Date());
 		},
 		setReady: (state, { payload }: PayloadAction<boolean>) => {
 			state.ready = payload;
@@ -114,6 +113,12 @@ const testStateSlice = createSlice({
 				state.fontType = state.fontType = FontTypeEnum.Light;
 			else if (state.testNum < 4) state.fontType = FontTypeEnum.Regular;
 			else state.fontType = FontTypeEnum.Bold;
+		},
+		initTest: (state) => {
+			state.testNum = 0;
+			state.fontType = FontTypeEnum.Light;
+			state.start = '';
+			state.end = '';
 		},
 		setFontType: (state, { payload }: PayloadAction<FontTypeEnum>) => {
 			state.fontType = payload;
@@ -143,6 +148,7 @@ export const {
 	setTestAns,
 	goNextTestNum,
 	setReady,
+	initTest,
 } = actions;
 
 // reducer

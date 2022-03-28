@@ -1,13 +1,13 @@
-import { Container, TestTemplate } from '@components';
+import { Container, GoNextButton, TestTemplate } from '@components';
 import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import {
 	getRecordResultDataExceptMode,
 	getTestNum,
 	getUserAns,
-	goNextTestNum,
+	goNextTestNum, initTest,
 	setEnd,
 	setReady,
-	setStart,
+	setStart
 } from '@features/testStateSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
@@ -34,6 +34,7 @@ const Test1Run = ({
 	onSetStart,
 	onRecordResult,
 	onSetReady,
+	onInitTest,
 	theme,
 }: Props) => {
 	const router = useRouter();
@@ -76,7 +77,8 @@ const Test1Run = ({
 				</strong>
 				을 모두 골라주세요
 			</p>
-			<TestTemplate ansSet={answers} questionSet={quests} ready={true} />
+			<TestTemplate ansSet={answers} questionSet={quests} />
+			<GoNextButton goNext={goNext} disabled={userAns.length === 0}/>
 		</Container>
 	);
 };
@@ -102,6 +104,7 @@ interface DispatchProps {
 	onSetEnd: () => void;
 	onRecordResult: (data: RecordResultData) => void;
 	onSetReady: (ready: boolean) => void;
+	onInitTest: () => void;
 }
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
@@ -111,6 +114,7 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
 	onSetEnd: () => dispatch(setEnd()),
 	onRecordResult: (data: RecordResultData) => dispatch(recordResult(data)),
 	onSetReady: (ready: boolean) => dispatch(setReady(ready)),
+	onInitTest: () => dispatch(initTest()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Test1Run);
