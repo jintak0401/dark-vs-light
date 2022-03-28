@@ -23,9 +23,12 @@ const Home = ({ onChangeTheme }: Props) => {
 	return (
 		<Container>
 			<h1 className={styles.emoji}>🧐</h1>
-			<h1 className={styles.title}>눈 건강 테스트하기</h1>
+			<h1 className={styles.title}>
+				<strong className={styles.darkMode}>다크모드</strong> VS{' '}
+				<strong className={styles.lightMode}>라이트모드</strong>
+			</h1>
 			<h3 className={styles.description}>
-				2번의 테스트로 눈 건강을 확인하세요!
+				2번의 테스트로 나한테 맞는 모드를 확인하세요!
 			</h3>
 			<GoNextButton goNext={goNext} body={'시작'} />
 		</Container>

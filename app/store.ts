@@ -10,7 +10,7 @@ import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import { themeReducer, surveyReducer, testReducer } from '@features';
 
 // 모든 리듀서 여기에 정의
@@ -47,7 +47,7 @@ export const persistedReducer = persistReducer(persistConfig, reducer);
 const makeConfiguredStore = (reducer: Reducer) =>
 	configureStore({
 		reducer: reducer,
-		middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+		// middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 		devTools: process.env.NODE_ENV !== 'production',
 	});
 

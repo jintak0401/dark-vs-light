@@ -42,6 +42,23 @@
   }
 }
 
+@mixin mixin__mode() {
+  display: inline-block;
+  padding: 10px;
+}
+
+.darkMode {
+  @include mixin__mode();
+  background-color: $default-black;
+  color: $default-white;
+}
+
+.lightMode {
+  @include mixin__mode();
+  background-color: white;
+  color: black;
+}
+
 .goNextButton {
   @include mixin__goNextButton();
 

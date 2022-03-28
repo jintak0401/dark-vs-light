@@ -107,13 +107,6 @@ const testSlice = createSlice({
 				state.round < 3 && (state.lightTime[state.round] = time);
 				state.lightAnsResult[state.round] = ansResult;
 			}
-			console.log(`round: ${state.round}`);
-			console.log(
-				`light: ${JSON.stringify(state.lightAnsResult)} / ${state.lightTime}`
-			);
-			console.log(
-				`dark: ${JSON.stringify(state.darkAnsResult)} / ${state.darkTime}`
-			);
 		},
 		setStart: (state) => {
 			state.startTime = JSON.stringify(new Date());
