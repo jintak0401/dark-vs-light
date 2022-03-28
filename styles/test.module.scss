@@ -1,0 +1,98 @@
+@import "variable.module";
+
+@mixin mixin__wordCell($font, $fontsize: 20px, $selcted: false) {
+  font-family: $font;
+  font-size: $fontsize;
+  border-radius: $border-radius;
+  cursor: pointer;
+  text-align: center;
+  color: var(--fontColor);
+  padding: 10px 20px;
+  border: solid 2px;
+  margin: 10px 20px;
+  @if $selcted {
+    border-color: $active-color;
+  }
+  @else {
+    border-color: var(--backgroundColor);
+  }
+}
+
+.wordCell__light {
+  @include mixin__wordCell($light-font);
+
+  &__isSelected {
+    @include mixin__wordCell($light-font, 20px, true);
+  }
+}
+
+.wordCell__regular {
+  @include mixin__wordCell($regular-font);
+
+  &__isSelected {
+    @include mixin__wordCell($regular-font, 20px, true);
+  }
+}
+
+.wordCell__light {
+  @include mixin__wordCell($light-font);
+
+  &__isSelected {
+    @include mixin__wordCell($light-font, 20px, true);
+  }
+}
+
+.description {
+  font-size: 24px;
+}
+
+.questionText {
+  font-size: 22px;
+  line-height: 1.5;
+}
+
+.questionText__strong {
+  color: $active-color;
+  font-weight: bold;
+}
+
+@mixin mixin__wordGroup() {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.wordGroup {
+  @include mixin__wordGroup();
+
+  &__ready {
+    @include mixin__wordGroup();
+    filter: blur(10px);
+  }
+}
+
+@mixin mixin__warningText($fontColor) {
+  width: 90%;
+  color: $fontColor;
+  text-align: right;
+  margin: 20px 0 -20px;
+  transition: 0.3s $animation color;
+}
+
+.warningText__active {
+  @include mixin__warningText(var(--warningColor));
+}
+
+.warningText__inactive {
+  @include mixin__warningText(var(--backgroundColor));
+}
+
+.startButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}

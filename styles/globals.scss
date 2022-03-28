@@ -1,0 +1,65 @@
+@import "variable.module";
+
+:root {
+  --blue50: #e8f3ff;
+  --blue200: #90c2ff;
+  --blue100: #c9e2ff;
+  --blue300: #64a8ff;
+  --blue400: #4593fc;
+  --blue500: #3182f6;
+  --blue600: #2272eb;
+  --blue700: #1b64da;
+  --blue800: #1957c2;
+  --blue900: #194aa6;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  /* 드래그 방지 */
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
+  font-family: -apple-system, lv1, lv1_bold, lv1_light, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  word-break: keep-all;
+  text-align: center;
+  color: var(--fontColor);
+  background-color: var(--backgroundColor);
+  box-sizing: border-box;
+}
+
+html[data-theme="light"] {
+  --fontColor: black;
+  --backgroundColor: white;
+  --warningColor: #FF0F0F;
+}
+
+html[data-theme="dark"] {
+  --fontColor: white;
+  --backgroundColor: #121212;
+  --warningColor: #B00020;
+}
+
+@font-face {
+  font-family: "lv1";
+  src: url("/fonts/lv1_regular.woff");
+}
+
+@font-face {
+  font-family: "lv1_bold";
+  src: url("/fonts/lv1_bold4.ttf");
+}
+
+@font-face {
+  font-family: "lv1_light";
+  src: url("/fonts/lv1_light5.eot");
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}

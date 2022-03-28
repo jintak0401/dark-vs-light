@@ -1,0 +1,59 @@
+@import "variable.module";
+
+@mixin mixin__modeSelect__question() {
+  text-align: center;
+  color: var(--fontColor);
+  transition: 0.3s $animation color;
+  margin-bottom: 50px;
+  word-break: keep-all;
+  line-height: 1.5;
+}
+
+.modeSelect__question {
+  @include mixin__modeSelect__question();
+}
+
+.modeSelect {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+@mixin mixin__modeCell($font-color, $background-color, $hover: true) {
+  width: 45%;
+  height: 150px;
+  font-size: 1.4em;
+  transition: 0.6s $animation transform;
+  border-radius: $border-radius;
+  color: $font-color;
+  background-color: $background-color;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @if $hover{
+    &:hover {
+      transform: scale(1.15, 1.15);
+    }
+  }
+}
+
+.modeCell__dark {
+  @include mixin__modeCell(white, $default-black);
+
+  &__selected {
+    @include mixin__modeCell(white, $default-black, false);
+    border: solid 2px $active-color;
+  }
+}
+
+.modeCell__light {
+  @include mixin__modeCell(black, $default-white);
+
+  &__selected {
+    @include mixin__modeCell(black, $default-white, false);
+    border: solid 2px $active-color;
+  }
+}

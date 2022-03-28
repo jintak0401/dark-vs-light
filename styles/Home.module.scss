@@ -1,0 +1,69 @@
+@import "variable.module";
+
+.innerContainer {
+  max-width: 800px;
+  min-height: 600px;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  //min-height: 100vh;
+  transition: 0.3s ease background-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--backgroundColor);
+}
+
+@mixin mixin__goNextButton($active: true) {
+  display: block;
+  width: 90%;
+  padding: 10px 15px;
+  margin: 30px auto;
+  color: white;
+  border: solid 0;
+  border-radius: $border-radius;
+  font-size: 24px;
+  transition: 0.3s $animation background-color;
+
+  @if $active {
+    background-color: $active-color;
+    cursor: pointer;
+  }
+  @else {
+    background-color: $inactive-color;
+    cursor: not-allowed;
+  }
+}
+
+.goNextButton {
+  @include mixin__goNextButton();
+
+  &__disabled {
+    @include mixin__goNextButton(false)
+  }
+}
+
+.emoji {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.title {
+}
+
+.description {
+}
+
+@media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}
