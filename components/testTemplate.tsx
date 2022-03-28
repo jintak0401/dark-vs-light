@@ -1,46 +1,65 @@
 import styles from 'styles/test.module.scss';
-import {
-	FontTypeEnum,
-	getFontType,
-	getReady,
-	getTestNum,
-	getUserAns,
-	resetUserAns,
-	setReady,
-	setStart,
-	setTestAns,
-	setUserAns,
-} from '@features/testStateSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
 import { WordCell } from '@components/index';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+	getTestState,
+	setReady,
+	setStart,
+	setTestAns,
+	resetUserAns,
+	setUserAns,
+	TestState,
+	setTimerTime,
+} from '@features/testSlice';
 
 type Props = OwnProps & StateProps & DispatchProps;
 
 const TestTemplate = ({
-	ready,
-	userAns,
 	ansSet,
+	needTimer,
+	testState,
 	onResetUserAns,
-	testNum,
 	onSetUserAns,
 	onSetTestAns,
 	onSetReady,
 	onSetStart,
 	questionSet,
-	fontType,
+	onSetTimerTime,
 }: Props) => {
+	const { round, turn, ready, userAns, fontType, timer } = testState;
+	const [isTimerWorking, setIsTimerWorking] = useState<boolean>(false);
+
 	useEffect(() => {
 		onResetUserAns();
-		onSetTestAns(ansSet);
-	}, [testNum]);
+	}, [round, turn]);
 
 	const goStart = () => {
+		onSetTestAns(ansSet);
 		onSetReady(false);
 		onSetStart();
-		console.log(ready);
+		if (needTimer) {
+			setIsTimerWorking(true);
+		}
 	};
+
+	useEffect(() => {
+		if (timer === 0) {
+			setIsTimerWorking(false);
+		}
+	}, [timer]);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (isTimerWorking) {
+				onSetTimerTime();
+			}
+		}, 1000);
+		return () => {
+			clearInterval(interval);
+		};
+	}, [isTimerWorking]);
 
 	return (
 		<React.Fragment>
@@ -70,20 +89,15 @@ const TestTemplate = ({
 interface OwnProps {
 	questionSet: string[];
 	ansSet: number[];
+	needTimer?: boolean;
 }
 
 interface StateProps {
-	userAns: number[];
-	fontType: FontTypeEnum;
-	testNum: number;
-	ready: boolean;
+	testState: TestState;
 }
 
 const mapStateToProps = (state: RootState) => ({
-	userAns: getUserAns(state),
-	fontType: getFontType(state),
-	testNum: getTestNum(state),
-	ready: getReady(state),
+	testState: getTestState(state),
 });
 
 interface DispatchProps {
@@ -92,6 +106,7 @@ interface DispatchProps {
 	onSetTestAns: (ans: number[]) => void;
 	onSetReady: (ready: boolean) => void;
 	onSetStart: () => void;
+	onSetTimerTime: (time?: number) => void;
 }
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
@@ -100,6 +115,7 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
 	onSetTestAns: (ans: number[]) => dispatch(setTestAns(ans)),
 	onSetReady: (ready: boolean) => dispatch(setReady(ready)),
 	onSetStart: () => dispatch(setStart()),
+	onSetTimerTime: (time?: number) => dispatch(setTimerTime(time)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TestTemplate);

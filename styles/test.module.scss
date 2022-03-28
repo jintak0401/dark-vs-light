@@ -34,11 +34,11 @@
   }
 }
 
-.wordCell__light {
-  @include mixin__wordCell($light-font);
+.wordCell__bold {
+  @include mixin__wordCell($bold-font);
 
   &__isSelected {
-    @include mixin__wordCell($light-font, 20px, true);
+    @include mixin__wordCell($bold-font, 20px, true);
   }
 }
 
@@ -64,11 +64,20 @@
   justify-content: space-evenly;
 }
 
+@mixin mixin__wordGroup__grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  //gap: 10px 30px;
+}
+
 .wordGroup {
   @include mixin__wordGroup();
+  //@include mixin__wordGroup__grid();
 
   &__ready {
     @include mixin__wordGroup();
+    //@include mixin__wordGroup__grid();
     filter: blur(10px);
   }
 }
@@ -82,7 +91,7 @@
 }
 
 .warningText__active {
-  @include mixin__warningText(var(--warningColor));
+  @include mixin__warningText(var(--redColor));
 }
 
 .warningText__inactive {
@@ -95,4 +104,26 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 5;
+  font-size: 20px;
+  padding: 10px 20px;
+  background-color: $active-color;
+  border: 0;
+  border-radius: $border-radius;
+  color: white;
+}
+
+.questionContainer__withTimer {
+  position: relative;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+
+.timer {
+  position: absolute;
+  right: 10px;
+  color: var(--redColor);
+  font-size: 18px;
 }

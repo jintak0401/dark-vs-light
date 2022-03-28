@@ -1,6 +1,5 @@
 import themeReducer from '@features/themeSlice';
-import testResultReducer from '@features/testResultSlice';
-import testStateReducer from '@features/testStateSlice';
 import surveyReducer from '@features/surveySlice';
+import testReducer from '@features/testSlice';
 
-export { themeReducer, testResultReducer, testStateReducer, surveyReducer };
+export { themeReducer, surveyReducer, testReducer };

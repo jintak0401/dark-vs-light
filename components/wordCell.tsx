@@ -1,5 +1,5 @@
 import styles from 'styles/test.module.scss';
-import { FontTypeEnum } from '@features/testStateSlice';
+import { FontTypeEnum } from '@features/testSlice';
 
 type Props = OwnProps;
 

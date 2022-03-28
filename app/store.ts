@@ -11,19 +11,13 @@ import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import logger from 'redux-logger';
-import {
-	themeReducer,
-	testStateReducer,
-	testResultReducer,
-	surveyReducer,
-} from '@features';
+import { themeReducer, surveyReducer, testReducer } from '@features';
 
 // 모든 리듀서 여기에 정의
 const combinedReducer = combineReducers({
 	themeReducer,
-	testResultReducer,
-	testStateReducer,
 	surveyReducer,
+	testReducer,
 });
 
 const reducer = (

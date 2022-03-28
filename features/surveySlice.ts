@@ -17,6 +17,11 @@ const initialState: SurveyState = {
 	gender: 0,
 };
 
+const getUsuallyMode = createSelector(
+	[(state: RootState) => state.SurveyReducer],
+	(state: SurveyState) => state.usuallyMode
+);
+
 const surveySlice = createSlice({
 	name: 'survey',
 	initialState,
@@ -45,4 +50,4 @@ export const { setUsuallyMode } = actions;
 export default surveyReducer;
 
 // getter
-export {};
+export { getUsuallyMode };

@@ -1,11 +1,14 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getUsuallyMode } from '@features/surveySlice';
 
 interface ThemeState {
 	theme: string;
+	usuallyTheme: string;
 }
 
 const initialState: ThemeState = {
 	theme: '',
+	usuallyTheme: '',
 };
 
 const getTheme = createSelector(
@@ -20,6 +23,7 @@ enum ThemeEnum {
 	Light,
 	Dark,
 	Current,
+	Usually,
 }
 
 const themeSlice = createSlice({
@@ -28,14 +32,8 @@ const themeSlice = createSlice({
 	reducers: {
 		changeTheme: (state, { payload }: PayloadAction<ThemeEnum>) => {
 			switch (payload) {
-				case ThemeEnum.Default:
-					const isDarkMode = window.matchMedia(
-						'(prefers-color-scheme: dark)'
-					).matches;
-					state.theme = isDarkMode ? 'dark' : 'light';
-					break;
 				case ThemeEnum.Toggle:
-					state.theme = state.theme == 'light' ? 'dark' : 'light';
+					state.theme = state.theme === 'light' ? 'dark' : 'light';
 					break;
 				case ThemeEnum.Dark:
 					state.theme = 'dark';
@@ -43,11 +41,27 @@ const themeSlice = createSlice({
 				case ThemeEnum.Light:
 					state.theme = 'light';
 					break;
-				// 그대로
+				case ThemeEnum.Usually:
+					state.theme = state.usuallyTheme;
+					if (state.usuallyTheme) break;
+
+				// usuallyTheme 이 ''일 경우에는 기본테마 실행
+				case ThemeEnum.Default:
+					const isDarkMode = window.matchMedia(
+						'(prefers-color-scheme: dark)'
+					).matches;
+					state.theme = isDarkMode ? 'dark' : 'light';
+					break;
 				default:
 					break;
 			}
 			document.documentElement.setAttribute('data-theme', state.theme);
+		},
+		setUsuallyTheme: (
+			state,
+			{ payload }: PayloadAction<ThemeEnum.Light | ThemeEnum.Dark>
+		) => {
+			state.usuallyTheme = payload === ThemeEnum.Dark ? 'dark' : 'light';
 		},
 	},
 });
@@ -61,7 +75,7 @@ export { ThemeEnum };
 const { actions, reducer: themeReducer } = themeSlice;
 
 // setter
-export const { changeTheme } = actions;
+export const { changeTheme, setUsuallyTheme } = actions;
 
 // reducer
 export default themeReducer;

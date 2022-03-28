@@ -1,6 +1,11 @@
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
-import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
+import {
+	changeTheme,
+	getTheme,
+	setUsuallyTheme,
+	ThemeEnum,
+} from '@features/themeSlice';
 import React, { useEffect } from 'react';
 import styles from '@styles/survey.module.scss';
 import { Container, GoNextButton } from '@components/index';
@@ -9,7 +14,12 @@ import { setUsuallyMode } from '@features/surveySlice';
 
 type Props = StateProps & DispatchProps;
 
-const Theme = ({ theme, onChangeTheme, onSetUsuallyMode }: Props) => {
+const Theme = ({
+	theme,
+	onChangeTheme,
+	onSetUsuallyMode,
+	onSetUsuallyTheme,
+}: Props) => {
 	const router = useRouter();
 	const getCellClassName = (mode: ThemeEnum.Dark | ThemeEnum.Light) => {
 		if (mode === theme) {
@@ -27,6 +37,7 @@ const Theme = ({ theme, onChangeTheme, onSetUsuallyMode }: Props) => {
 
 	const goNext = async () => {
 		onSetUsuallyMode(theme);
+		onSetUsuallyTheme(theme);
 		await router.push('/test1');
 	};
 
@@ -64,13 +75,18 @@ const mapStateToProps = (state: RootState) => ({
 
 interface DispatchProps {
 	onChangeTheme: (theme: ThemeEnum) => void;
+	// SurveySlice
 	onSetUsuallyMode: (theme: ThemeEnum.Dark | ThemeEnum.Light) => void;
+	// ThemeSlice
+	onSetUsuallyTheme: (theme: ThemeEnum.Dark | ThemeEnum.Light) => void;
 }
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
 	onChangeTheme: (theme: ThemeEnum) => dispatch(changeTheme(theme)),
 	onSetUsuallyMode: (theme: ThemeEnum.Dark | ThemeEnum.Light) =>
 		dispatch(setUsuallyMode(theme)),
+	onSetUsuallyTheme: (theme: ThemeEnum.Dark | ThemeEnum.Light) =>
+		dispatch(setUsuallyTheme(theme)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Theme);
