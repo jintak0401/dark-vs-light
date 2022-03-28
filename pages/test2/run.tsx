@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { shuffle } from '@lib/shuffle';
-import { ansStringSet, getTestAns, getTestSet } from '@lib/testset';
+import { getTestAns, getTestSet } from '@lib/testset';
 import styles from '@styles/test.module.scss';
 import {
 	getTestState,
