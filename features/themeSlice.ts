@@ -1,5 +1,4 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getUsuallyMode } from '@features/surveySlice';
 
 interface ThemeState {
 	theme: string;

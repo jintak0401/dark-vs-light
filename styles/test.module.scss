@@ -19,26 +19,26 @@
 }
 
 .wordCell__light {
-  @include mixin__wordCell($light-font);
+  @include mixin__wordCell(nanum_light);
 
   &__isSelected {
-    @include mixin__wordCell($light-font, 20px, true);
+    @include mixin__wordCell(nanum_light, 20px, true);
   }
 }
 
 .wordCell__regular {
-  @include mixin__wordCell($regular-font);
+  @include mixin__wordCell(nanum_regular);
 
   &__isSelected {
-    @include mixin__wordCell($regular-font, 20px, true);
+    @include mixin__wordCell(nanum_regular, 20px, true);
   }
 }
 
 .wordCell__bold {
-  @include mixin__wordCell($bold-font);
+  @include mixin__wordCell(nanum_bold);
 
   &__isSelected {
-    @include mixin__wordCell($bold-font, 20px, true);
+    @include mixin__wordCell(nanum_bold, 20px, true);
   }
 }
 
@@ -126,4 +126,20 @@
   right: 10px;
   color: var(--redColor);
   font-size: 18px;
+}
+
+.tmpBold {
+  font-family: nanum_bold, serif;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.tmpRegular {
+  font-family: nanum_regular, serif;
+  font-size: 50px;
+}
+.tmpLight {
+  font-family: nanum_light, serif;
+  font-size: 50px;
+  font-weight: 100;
 }

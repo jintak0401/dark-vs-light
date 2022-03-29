@@ -10,7 +10,7 @@ import React, { useEffect } from 'react';
 import styles from '@styles/survey.module.scss';
 import { Container, GoNextButton } from '@components/index';
 import { useRouter } from 'next/router';
-import { setUsuallyMode } from '@features/surveySlice';
+import { setUsuallyMode } from '@features/testSlice';
 
 type Props = StateProps & DispatchProps;
 

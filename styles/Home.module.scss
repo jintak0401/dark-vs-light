@@ -12,13 +12,14 @@
 
 .container {
   width: 100vw;
-  height: 100vh;
-  //min-height: 100vh;
+  //height: 100vh;
+  min-height: 100vh;
   transition: 0.3s ease background-color;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--backgroundColor);
+  padding: 30px 0;
 }
 
 @mixin mixin__goNextButton($active: true) {

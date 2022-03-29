@@ -31,12 +31,12 @@ const Test2Run = ({
 	const router = useRouter();
 	const [quests, setQuests] = useState<string[]>([]);
 	const [answers, setAnswers] = useState<number[]>([]);
-	const { testType, round, turn, userAns, timer } = testState;
+	const { testType, round, turn, timer } = testState;
 	const goNext = async () => {
 		onRecordResult(theme);
 		const [tmpRound, tmpTurn] = [round, turn];
 		if (tmpRound === 5 && tmpTurn === 1) {
-			await router.replace('/result');
+			await router.replace('/survey');
 		} else {
 			onGoNextTurn();
 			onChangeTheme(ThemeEnum.Toggle);

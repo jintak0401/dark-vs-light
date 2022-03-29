@@ -1,31 +1,17 @@
 @import "variable.module";
 
-:root {
-  --blue50: #e8f3ff;
-  --blue200: #90c2ff;
-  --blue100: #c9e2ff;
-  --blue300: #64a8ff;
-  --blue400: #4593fc;
-  --blue500: #3182f6;
-  --blue600: #2272eb;
-  --blue700: #1b64da;
-  --blue800: #1957c2;
-  --blue900: #194aa6;
-}
-
 html,
 body {
   padding: 0;
   margin: 0;
   /* 드래그 방지 */
   -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
-  font-family: -apple-system, lv1_regular, lv1_bold, lv1_light, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: -apple-system, lv1_regular, lv1_bold, lv1_light, nanum_regular, nanum_bold, nanum_light, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   word-break: keep-all;
   text-align: center;
   color: var(--fontColor);
   background-color: var(--backgroundColor);
-  box-sizing: border-box;
 }
 
 html[data-theme="light"] {
@@ -37,7 +23,8 @@ html[data-theme="light"] {
 html[data-theme="dark"] {
   --fontColor: white;
   --backgroundColor: #121212;
-  --redColor: #B00020;
+  --redColor: #FF0F0F;
+  //--redColor: #B00020;
 }
 
 @font-face {
@@ -47,12 +34,25 @@ html[data-theme="dark"] {
 
 @font-face {
   font-family: "lv1_bold";
-  src: url("/fonts/lv1_bold4.ttf");
+  src: url("/fonts/lv1_bold.woff");
 }
 
 @font-face {
   font-family: "lv1_light";
-  src: url("/fonts/lv1_light5.eot");
+  src: url("/fonts/lv1_light.woff");
+}
+
+@font-face {
+  font-family: "nanum_regular";
+  src: url("/fonts/nanum_regular.woff");
+}
+@font-face {
+  font-family: "nanum_bold";
+  src: url("/fonts/nanum_bold.woff");
+}
+@font-face {
+  font-family: "nanum_light";
+  src: url("/fonts/nanum_light.woff");
 }
 
 a {
@@ -62,4 +62,16 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

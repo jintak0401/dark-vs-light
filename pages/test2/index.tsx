@@ -3,13 +3,20 @@ import { changeTheme, ThemeEnum } from '@features/themeSlice';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
 import { AppDispatch } from '@app/store';
-import { defaultTimerTime, initTest, TestTypeEnum } from '@features/testSlice';
+import {
+	defaultTimerTime,
+	getIsTest1Done,
+	getTestState,
+	initTest,
+	TestState,
+	TestTypeEnum,
+} from '@features/testSlice';
 import styles from '@styles/test.module.scss';
 import { useRouter } from 'next/router';
 
-type Props = DispatchProps;
+type Props = StateProps & DispatchProps;
 
-const Test2 = ({ onChangeTheme, onInitTest }: Props) => {
+const Test2 = ({ isTest1Done, onChangeTheme, onInitTest }: Props) => {
 	const router = useRouter();
 
 	const goNext = async () => {
@@ -17,8 +24,12 @@ const Test2 = ({ onChangeTheme, onInitTest }: Props) => {
 	};
 
 	useEffect(() => {
-		onChangeTheme(ThemeEnum.Usually);
-		onInitTest(TestTypeEnum.Timer);
+		if (isTest1Done) {
+			onChangeTheme(ThemeEnum.Usually);
+			onInitTest(TestTypeEnum.Timer);
+		} else {
+			router.replace('/redirect');
+		}
 	}, []);
 
 	return (
@@ -37,6 +48,14 @@ const Test2 = ({ onChangeTheme, onInitTest }: Props) => {
 	);
 };
 
+interface StateProps {
+	isTest1Done: boolean;
+}
+
+const mapStateToProps = (state: RootState) => ({
+	isTest1Done: getIsTest1Done(state),
+});
+
 interface DispatchProps {
 	onChangeTheme: (theme: ThemeEnum) => void;
 	onInitTest: (testType?: TestTypeEnum) => void;
@@ -47,4 +66,4 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
 	onInitTest: (testType?: TestTypeEnum) => dispatch(initTest(testType)),
 });
 
-export default connect(null, mapDispatchToProps)(Test2);
+export default connect(mapStateToProps, mapDispatchToProps)(Test2);
