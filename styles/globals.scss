@@ -6,7 +6,7 @@ body {
   margin: 0;
   /* 드래그 방지 */
   -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
-  font-family: -apple-system,  nanum_regular, nanum_bold, nanum_light, lv1_regular, lv1_bold, lv1_light, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: -apple-system,  nanum_regular, nanum_bold, nanum_light, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   word-break: keep-all;
   text-align: center;
@@ -27,21 +27,6 @@ html[data-theme="dark"] {
   --redColor: #FF0F0F;
   --greyColor: rgba(255, 255, 255, 0.2);
   //--redColor: #B00020;
-}
-
-@font-face {
-  font-family: "lv1_regular";
-  src: url("/fonts/lv1_regular.woff");
-}
-
-@font-face {
-  font-family: "lv1_bold";
-  src: url("/fonts/lv1_bold.woff");
-}
-
-@font-face {
-  font-family: "lv1_light";
-  src: url("/fonts/lv1_light.woff");
 }
 
 @font-face {
