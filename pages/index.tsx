@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { GoNextButton, StepIndicator } from '@components';
 import { useRouter } from 'next/router';
 import { initAll } from '@features/testSlice';
+import Head from 'next/head';
 
 type Props = StateProps & DispatchProps;
 
@@ -24,6 +25,24 @@ const Home = ({ onChangeTheme, onInitAll }: Props) => {
 
 	return (
 		<Container>
+			<Head>
+				<title>한양오픈소스 프로젝트</title>
+				<meta name="description" content="나한테 맞는 모드는?" />
+				<meta property="og:title" content="다크모드 vs 라이트모드" />
+				<meta property="og:description" content="나한테 맞는 모드는?" />
+				<meta
+					property="og:image"
+					content="https://dark-vs-light.vercel.app/meta.png"
+				/>
+				<meta property="og:site_name" content="다크모드 vs 라이트모드" />
+				<meta
+					name="twitter:description"
+					content="나한테 어떤 모드가 맞는지 테스트하세요!"
+				/>
+				<meta name="twitter:title" content="다크모드 vs 라이트모드" />
+				<meta property="og:locale" content="ko_KR" />
+				<link rel="icon" href="/modeIcon.ico" />
+			</Head>
 			<StepIndicator step={0} />
 			<h1 className={styles.emoji}>🧐</h1>
 			<h1 className={styles.title}>
