@@ -1,5 +1,11 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+	createSelector,
+	createSlice,
+	PayloadAction,
+	createAsyncThunk,
+} from '@reduxjs/toolkit';
 import { ThemeEnum } from '@features/themeSlice';
+import axios from 'axios';
 
 enum FontTypeEnum {
 	Light,
@@ -47,6 +53,7 @@ interface TestState {
 	testType: TestTypeEnum;
 	ready: boolean;
 	timer: number;
+	recordDone: boolean;
 }
 
 interface TotalTestState extends TestResult, SurveyState, TestState {
@@ -72,6 +79,7 @@ const initialState: TotalTestState = {
 	ready: false,
 	timer: defaultTimerTime,
 	testStep: 0,
+	recordDone: false,
 };
 
 const getTestResult = createSelector(
@@ -96,6 +104,7 @@ const getTestState = createSelector(
 		testType: state.testType,
 		ready: state.ready,
 		timer: state.timer,
+		recordDone: state.recordDone,
 	})
 );
 
@@ -124,6 +133,22 @@ const getFinishedTest = createSelector(
 	}
 );
 
+interface RecordRequestData extends SurveyState, TestResult {}
+
+const requestRecord = createAsyncThunk(
+	'request/record',
+	async (recordRequestData: RecordRequestData, thunkApi) => {
+		try {
+			const response = await axios.post('/api/record', recordRequestData);
+			if (response.data?.id !== undefined) {
+				return true;
+			}
+		} catch (e) {
+			return thunkApi.rejectWithValue('cannot record result');
+		}
+	}
+);
+
 const testSlice = createSlice({
 	name: 'test',
 	initialState,
@@ -144,6 +169,7 @@ const testSlice = createSlice({
 			state.ready = false;
 			state.timer = defaultTimerTime;
 			state.testStep = 0;
+			state.recordDone = false;
 		},
 		recordResult: (
 			state,
@@ -203,6 +229,7 @@ const testSlice = createSlice({
 			state.darkAnsResult.length = payload === TestTypeEnum.Timer ? 3 : 0;
 			state.lightAnsResult.length = payload === TestTypeEnum.Timer ? 3 : 0;
 			state.testStep = payload === TestTypeEnum.Timer ? 6 : 0;
+			state.recordDone = false;
 		},
 		resetUserAns: (state) => {
 			state.userAns = [];
@@ -252,6 +279,13 @@ const testSlice = createSlice({
 			state.moreReadableMode = undefined;
 		},
 	},
+	extraReducers: {
+		// [requestRecord.pending.type]: (state) => {},
+		[requestRecord.fulfilled.type]: (state) => {
+			state.recordDone = true;
+		},
+		[requestRecord.rejected.type]: (state) => {},
+	},
 });
 
 // state
@@ -281,6 +315,9 @@ export const {
 	setUsuallyMode,
 	initSurvey,
 } = actions;
+
+// thunk
+export { requestRecord };
 
 // reducer
 export default testReducer;

@@ -10,6 +10,7 @@ import RecommendSentence from '@components/recommendSentence';
 import Test1Result from '@components/test1Result';
 import Test2Result from '@components/test2Result';
 import RedirectSentence from '@components/redirectSentence';
+import MetaTags from '@components/metaTags';
 
 export {
 	Container,
@@ -24,4 +25,5 @@ export {
 	Test1Result,
 	Test2Result,
 	RedirectSentence,
+	MetaTags,
 };

@@ -61,6 +61,12 @@
       "@lib/*": [
         "lib/*"
       ],
+      "@db": [
+        "utils/db/index.ts"
+      ],
+      "@db/*": [
+        "utils/db/*"
+      ]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

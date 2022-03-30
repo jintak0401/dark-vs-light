@@ -8,14 +8,16 @@ import { shuffle } from '@lib/shuffle';
 import { getTestAns, getTestSet } from '@lib/testset';
 import styles from '@styles/test.module.scss';
 import {
-	getTestState,
-	goNextTurn,
-	TestState,
-	setReady,
-	recordResult,
-	setTimerTime,
 	defaultTimerTime,
 	getFinishedTest,
+	getTestState,
+	goNextTurn,
+	initTest,
+	recordResult,
+	setReady,
+	setTimerTime,
+	TestState,
+	TestTypeEnum,
 } from '@features/testSlice';
 
 type Props = StateProps & DispatchProps;
@@ -29,6 +31,7 @@ const Test2Run = ({
 	onGoNextTurn,
 	onRecordResult,
 	onSetTimerTime,
+	onInitTest,
 }: Props) => {
 	const router = useRouter();
 	const [quests, setQuests] = useState<string[]>([]);
@@ -67,7 +70,17 @@ const Test2Run = ({
 
 	useEffect(() => {
 		onChangeTheme(ThemeEnum.Current);
+		onInitTest(TestTypeEnum.Timer);
 		if (finishedTest === 0) router.replace('/redirect');
+
+		const unloadCallback = (event: BeforeUnloadEvent) => {
+			event.preventDefault();
+			event.returnValue = '';
+			return '';
+		};
+
+		window.addEventListener('beforeunload', unloadCallback);
+		return () => window.removeEventListener('beforeunload', unloadCallback);
 	}, []);
 
 	return (
@@ -113,6 +126,7 @@ interface DispatchProps {
 	onGoNextTurn: () => void;
 	onRecordResult: (theme: ThemeEnum.Dark | ThemeEnum.Light) => void;
 	onSetTimerTime: (time?: number) => void;
+	onInitTest: (testType?: TestTypeEnum) => void;
 }
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
@@ -122,6 +136,7 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
 	onRecordResult: (theme: ThemeEnum.Dark | ThemeEnum.Light) =>
 		dispatch(recordResult(theme)),
 	onSetTimerTime: (time?: number) => dispatch(setTimerTime(time)),
+	onInitTest: (testType?: TestTypeEnum) => dispatch(initTest(testType)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Test2Run);

@@ -13,12 +13,15 @@ import { shuffle } from '@lib/shuffle';
 import { getTestAns, getTestSet } from '@lib/testset';
 import styles from '@styles/test.module.scss';
 import {
+	getFinishedTest,
+	getSurveyState,
 	getTestState,
 	goNextTurn,
-	TestState,
-	setReady,
+	initTest,
 	recordResult,
-	getFinishedTest,
+	setReady,
+	TestState,
+	TestTypeEnum,
 } from '@features/testSlice';
 
 type Props = StateProps & DispatchProps;
@@ -26,10 +29,12 @@ type Props = StateProps & DispatchProps;
 const Test1Run = ({
 	theme,
 	testState,
+	usuallyMode,
 	onChangeTheme,
 	onSetReady,
 	onGoNextTurn,
 	onRecordResult,
+	onInitTest,
 }: Props) => {
 	const router = useRouter();
 	const [quests, setQuests] = useState<string[]>([]);
@@ -59,7 +64,21 @@ const Test1Run = ({
 	}, [round, turn]);
 
 	useEffect(() => {
-		onChangeTheme(ThemeEnum.Current);
+		if (usuallyMode === '') {
+			router.replace('redirect');
+		} else {
+			onChangeTheme(ThemeEnum.Usually);
+			onInitTest(TestTypeEnum.StopWatch);
+		}
+
+		const unloadCallback = (event: BeforeUnloadEvent) => {
+			event.preventDefault();
+			event.returnValue = '';
+			return '';
+		};
+
+		window.addEventListener('beforeunload', unloadCallback);
+		return () => window.removeEventListener('beforeunload', unloadCallback);
 	}, []);
 
 	return (
@@ -84,12 +103,14 @@ const Test1Run = ({
 interface StateProps {
 	theme: ThemeEnum.Light | ThemeEnum.Dark;
 	testState: TestState;
+	usuallyMode: string;
 }
 
 const mapStateToProps = (state: RootState) => ({
 	finishedTest: getFinishedTest(state),
 	theme: getTheme(state),
 	testState: getTestState(state),
+	usuallyMode: getSurveyState(state).usuallyMode,
 });
 
 interface DispatchProps {
@@ -97,6 +118,7 @@ interface DispatchProps {
 	onSetReady: (ready: boolean) => void;
 	onGoNextTurn: () => void;
 	onRecordResult: (theme: ThemeEnum.Dark | ThemeEnum.Light) => void;
+	onInitTest: (testType?: TestTypeEnum) => void;
 }
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
@@ -105,6 +127,7 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
 	onGoNextTurn: () => dispatch(goNextTurn()),
 	onRecordResult: (theme: ThemeEnum.Dark | ThemeEnum.Light) =>
 		dispatch(recordResult(theme)),
+	onInitTest: (testType?: TestTypeEnum) => dispatch(initTest(testType)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Test1Run);

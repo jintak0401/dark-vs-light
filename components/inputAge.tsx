@@ -1,5 +1,5 @@
 import React from 'react';
-import { getSurveyState, setAge, setGender } from '@features/testSlice';
+import { getSurveyState, setAge } from '@features/testSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
 import { ChangeEvent } from 'react';

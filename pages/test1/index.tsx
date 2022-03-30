@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { AppDispatch } from '@app/store';
 import {
 	getFinishedTest,
+	getSurveyState,
 	getTestState,
 	initTest,
 	setReady,
@@ -24,6 +25,7 @@ type Props = StateProps & DispatchProps;
 
 const Test1 = ({
 	finishedTest,
+	usuallyMode,
 	onChangeTheme,
 	testState,
 	onSetReady,
@@ -42,12 +44,15 @@ const Test1 = ({
 
 	const goNext = async () => {
 		await router.push('/test1/run');
-		onInitTest(TestTypeEnum.StopWatch);
 	};
 
 	useEffect(() => {
-		onChangeTheme(ThemeEnum.Usually);
-		finishedTest === 0 && onInitTest(TestTypeEnum.StopWatch);
+		if (usuallyMode === '') {
+			router.replace('redirect');
+		} else {
+			onChangeTheme(ThemeEnum.Usually);
+			finishedTest === 0 && onInitTest(TestTypeEnum.StopWatch);
+		}
 		onSetReady(false);
 	}, []);
 
@@ -81,11 +86,13 @@ const Test1 = ({
 interface StateProps {
 	testState: TestState;
 	finishedTest: number;
+	usuallyMode: string;
 }
 
 const mapStateToProps = (state: RootState) => ({
 	testState: getTestState(state),
 	finishedTest: getFinishedTest(state),
+	usuallyMode: getSurveyState(state).usuallyMode,
 });
 
 interface DispatchProps {

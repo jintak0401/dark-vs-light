@@ -10,7 +10,9 @@ import {
 	getFinishedTest,
 	getSurveyState,
 	getTestResult,
+	getTestState,
 	initTest,
+	requestRecord,
 	setReady,
 	SurveyState,
 	TestResult,
@@ -27,6 +29,7 @@ import {
 	getTest2Result,
 } from '@lib/getRecommendMode';
 import styles from '@styles/result.module.scss';
+import { useAppDispatch } from '@app/hooks';
 
 type Props = StateProps & DispatchProps;
 
@@ -35,9 +38,11 @@ const Result = ({
 	finishedTest,
 	testResult,
 	surveyState,
+	recordDone,
 	onChangeTheme,
 }: Props) => {
 	const router = useRouter();
+	const dispatch = useAppDispatch();
 	const [darkCorrectRatio, setDarkCorrectRatio] = useState<number[]>([]);
 	const [lightCorrectRatio, setLightCorrectRatio] = useState<number[]>([]);
 	const [darkAverageTime, setDarkAverageTime] = useState<number>(0);
@@ -88,7 +93,21 @@ const Result = ({
 			);
 			setLoading(false);
 		}
+		const unloadCallback = (event: BeforeUnloadEvent) => {
+			event.preventDefault();
+			event.returnValue = '';
+			return '';
+		};
+
+		window.addEventListener('beforeunload', unloadCallback);
+		return () => window.removeEventListener('beforeunload', unloadCallback);
 	}, []);
+
+	useEffect(() => {
+		if (!loading && recommendMode !== '' && !recordDone) {
+			dispatch(requestRecord({ ...surveyState, ...testResult }));
+		}
+	}, [loading, recommendMode, recordDone]);
 
 	return (
 		<Container>
@@ -135,6 +154,7 @@ interface StateProps {
 	finishedTest: number;
 	testResult: TestResult;
 	surveyState: SurveyState;
+	recordDone: boolean;
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -142,6 +162,7 @@ const mapStateToProps = (state: RootState) => ({
 	finishedTest: getFinishedTest(state),
 	testResult: getTestResult(state),
 	surveyState: getSurveyState(state),
+	recordDone: getTestState(state).recordDone,
 });
 
 interface DispatchProps {
