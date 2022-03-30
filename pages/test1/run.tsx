@@ -45,6 +45,7 @@ const Test1Run = ({
 			await router.replace('/test2');
 		} else {
 			onGoNextTurn();
+			window.scrollTo({ top: 0, behavior: 'smooth' });
 		}
 	};
 
