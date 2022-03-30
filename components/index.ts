@@ -9,6 +9,7 @@ import StepIndicator from '@components/stepIndicator';
 import RecommendSentence from '@components/recommendSentence';
 import Test1Result from '@components/test1Result';
 import Test2Result from '@components/test2Result';
+import RedirectSentence from '@components/redirectSentence';
 
 export {
 	Container,
@@ -22,4 +23,5 @@ export {
 	RecommendSentence,
 	Test1Result,
 	Test2Result,
+	RedirectSentence,
 };

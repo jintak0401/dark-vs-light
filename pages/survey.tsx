@@ -71,9 +71,6 @@ const Survey = ({
 	return (
 		<ThemeProvider theme={theme}>
 			<Container>
-				<button onClick={() => onChangeTheme(ThemeEnum.Toggle)}>
-					테마 바꾸기
-				</button>
 				<StepIndicator step={4} />
 				<h1 className={styles.emoji}>🥳</h1>
 				<h1 className={styles.title}>마지막 단계에요!</h1>

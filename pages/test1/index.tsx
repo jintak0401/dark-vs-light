@@ -42,6 +42,7 @@ const Test1 = ({
 
 	const goNext = async () => {
 		await router.push('/test1/run');
+		onInitTest(TestTypeEnum.StopWatch);
 	};
 
 	useEffect(() => {

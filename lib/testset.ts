@@ -57,13 +57,11 @@ const testSet = [
 	],
 ];
 
-const ansStringSet = ['범법', '꿀잼', '찍먹'];
+const ansStringSet = [testSet[0][0], testSet[1][0], testSet[2][0]];
 
 const ansUnit = 7;
 const testUnit = [ansUnit, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1];
 
-// testType: 1 or 2
-// testNum: 1, 2, or 3
 const getTestSet = (testType: TestTypeEnum, round: number): string[] => {
 	const ret = [];
 	const unit = testUnit;

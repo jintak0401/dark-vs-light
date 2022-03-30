@@ -2,6 +2,7 @@ import {
 	Container,
 	GoNextButton,
 	RecommendSentence,
+	RedirectSentence,
 	Test1Result,
 	Test2Result,
 } from '@components';
@@ -70,16 +71,18 @@ const Result = ({
 				lightTime,
 			});
 			const test2Result = getTest2Result({ darkAnsResult, lightAnsResult });
+			const dRatio = [test1Result[1], test2Result[0]];
+			const lRatio = [test1Result[3], test2Result[1]];
 			setDarkAverageTime(test1Result[0]);
 			setLightAverageTime(test1Result[2]);
-			setDarkCorrectRatio([test1Result[1], test2Result[0]]);
-			setLightCorrectRatio([test1Result[3], test2Result[1]]);
+			setDarkCorrectRatio(dRatio);
+			setLightCorrectRatio(lRatio);
 			setRecommendMode(
 				getRecommendMode({
-					darkCorrectRatio,
-					lightCorrectRatio,
-					darkAverageTime,
-					lightAverageTime,
+					darkCorrectRatio: dRatio,
+					lightCorrectRatio: lRatio,
+					darkAverageTime: test1Result[0],
+					lightAverageTime: test1Result[2],
 					usuallyMode,
 				})
 			);
@@ -89,13 +92,10 @@ const Result = ({
 
 	return (
 		<Container>
-			<button onClick={() => onChangeTheme(ThemeEnum.Toggle)}>
-				테마바꾸기
-			</button>
-			{!loading && recommendMode && (
+			{!loading && recommendMode !== '' && (
 				<Fragment>
 					<h1 className={styles.emoji}>🧐</h1>
-					<h1 className={styles.title}>결과는!</h1>
+					<h1>결과는!</h1>
 					<p className={styles.description}>
 						테스트 결과를 평균적으로 알려드릴게요!
 					</p>
@@ -111,17 +111,20 @@ const Result = ({
 						lightCorrectRatio={lightCorrectRatio[1]}
 						getModeTextClassName={getModeTextClassName}
 					/>
+					<RecommendSentence
+						recommendMode={recommendMode}
+						getModeTextClassName={getModeTextClassName}
+					/>
 				</Fragment>
 			)}
-			<RecommendSentence
-				recommendMode={recommendMode}
-				getModeTextClassName={getModeTextClassName}
-			/>
-			{!loading && !recommendMode && (
-				<GoNextButton
-					goNext={() => router.replace('/')}
-					body={'제대로 할게요'}
-				/>
+			{!loading && recommendMode === '' && (
+				<Fragment>
+					<RedirectSentence />
+					<GoNextButton
+						goNext={() => router.replace('/')}
+						body={'제대로 할게요'}
+					/>
+				</Fragment>
 			)}
 		</Container>
 	);

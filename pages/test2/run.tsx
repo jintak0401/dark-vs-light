@@ -15,11 +15,13 @@ import {
 	recordResult,
 	setTimerTime,
 	defaultTimerTime,
+	getFinishedTest,
 } from '@features/testSlice';
 
 type Props = StateProps & DispatchProps;
 
 const Test2Run = ({
+	finishedTest,
 	theme,
 	testState,
 	onChangeTheme,
@@ -64,6 +66,7 @@ const Test2Run = ({
 
 	useEffect(() => {
 		onChangeTheme(ThemeEnum.Current);
+		if (finishedTest === 0) router.replace('/redirect');
 	}, []);
 
 	return (
@@ -94,11 +97,13 @@ const Test2Run = ({
 interface StateProps {
 	theme: ThemeEnum.Light | ThemeEnum.Dark;
 	testState: TestState;
+	finishedTest: number;
 }
 
 const mapStateToProps = (state: RootState) => ({
 	theme: getTheme(state),
 	testState: getTestState(state),
+	finishedTest: getFinishedTest(state),
 });
 
 interface DispatchProps {

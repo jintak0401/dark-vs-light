@@ -19,12 +19,13 @@ const Test2 = ({ finishedTest, onChangeTheme, onInitTest }: Props) => {
 
 	const goNext = async () => {
 		await router.push('/test2/run');
+		onInitTest(TestTypeEnum.Timer);
 	};
 
 	useEffect(() => {
 		if (finishedTest) {
 			onChangeTheme(ThemeEnum.Usually);
-			finishedTest === 1 && onInitTest(TestTypeEnum.Timer);
+			finishedTest >= 1 && onInitTest(TestTypeEnum.Timer);
 		} else {
 			router.replace('/redirect');
 		}
@@ -41,9 +42,7 @@ const Test2 = ({ finishedTest, onChangeTheme, onInitTest }: Props) => {
 				</strong>{' '}
 				안에 일치하는 단어들을 모두 골라주세요!
 			</h2>
-			<p className={styles.description}>
-				이번 테스트가 마지막이에요! 힘내주세요
-			</p>
+			<p className={styles.description}>생각보다 빠듯할 거예요! 힘내주세요!</p>
 			<GoNextButton goNext={goNext} body={'시작할게요!'} />
 		</Container>
 	);

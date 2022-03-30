@@ -18,6 +18,7 @@ import {
 	TestState,
 	setReady,
 	recordResult,
+	getFinishedTest,
 } from '@features/testSlice';
 
 type Props = StateProps & DispatchProps;
@@ -85,6 +86,7 @@ interface StateProps {
 }
 
 const mapStateToProps = (state: RootState) => ({
+	finishedTest: getFinishedTest(state),
 	theme: getTheme(state),
 	testState: getTestState(state),
 });
