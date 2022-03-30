@@ -1,4 +1,9 @@
-import { Container, GoNextButton, TestTemplate } from '@components';
+import {
+	Container,
+	GoNextButton,
+	StepIndicator,
+	TestTemplate,
+} from '@components';
 import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
@@ -32,11 +37,13 @@ const Test1Run = ({
 	const goNext = async () => {
 		onRecordResult(theme);
 		const [tmpRound, tmpTurn] = [round, turn];
+		if (tmpRound === 2 && tmpTurn === 0) {
+			onChangeTheme(ThemeEnum.Toggle);
+		}
 		if (tmpRound === 2 && tmpTurn === 1) {
 			await router.replace('/test2');
 		} else {
 			onGoNextTurn();
-			onChangeTheme(ThemeEnum.Toggle);
 		}
 	};
 
@@ -57,6 +64,7 @@ const Test1Run = ({
 		<Container>
 			{round !== 3 && (
 				<React.Fragment>
+					<StepIndicator step={2} />
 					<p className={styles.questionText}>
 						<strong className={styles.questionText__strong}>
 							{getTestAns(round)}

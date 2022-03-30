@@ -4,12 +4,13 @@ import { AppDispatch } from '@app/store';
 import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
-import { GoNextButton } from '@components';
+import { GoNextButton, StepIndicator } from '@components';
 import { useRouter } from 'next/router';
+import { initAll } from '@features/testSlice';
 
 type Props = StateProps & DispatchProps;
 
-const Home = ({ onChangeTheme }: Props) => {
+const Home = ({ onChangeTheme, onInitAll }: Props) => {
 	const router = useRouter();
 
 	const goNext = async () => {
@@ -18,10 +19,12 @@ const Home = ({ onChangeTheme }: Props) => {
 
 	useEffect(() => {
 		onChangeTheme(ThemeEnum.Default);
+		onInitAll();
 	}, []);
 
 	return (
 		<Container>
+			<StepIndicator step={0} />
 			<h1 className={styles.emoji}>🧐</h1>
 			<h1 className={styles.title}>
 				<strong className={styles.darkMode}>다크모드</strong> VS{' '}
@@ -45,10 +48,12 @@ const mapStateToProps = (state: RootState): StateProps => ({
 
 interface DispatchProps {
 	onChangeTheme: (themeEnum: ThemeEnum) => void;
+	onInitAll: () => void;
 }
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
 	onChangeTheme: (themeEnum: ThemeEnum) => dispatch(changeTheme(themeEnum)),
+	onInitAll: () => dispatch(initAll()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

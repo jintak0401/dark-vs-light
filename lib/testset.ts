@@ -59,15 +59,14 @@ const testSet = [
 
 const ansStringSet = ['범법', '꿀잼', '찍먹'];
 
-const test1Unit = [7, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1];
-const test2Unit = [3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+const ansUnit = 7;
+const testUnit = [ansUnit, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1];
 
 // testType: 1 or 2
 // testNum: 1, 2, or 3
 const getTestSet = (testType: TestTypeEnum, round: number): string[] => {
 	const ret = [];
-	// const unit = testType === TestTypeEnum.StopWatch ? test1Unit : test2Unit;
-	const unit = test1Unit;
+	const unit = testUnit;
 	const qSet = testSet[round % testSet.length];
 	for (let i = 0; i < qSet.length; i++) {
 		for (let j = 0; j < unit[i]; j++) {
@@ -81,4 +80,4 @@ const getTestAns = (round: number): string => {
 	return ansStringSet[round % ansStringSet.length];
 };
 
-export { getTestSet, getTestAns };
+export { ansUnit, getTestSet, getTestAns };

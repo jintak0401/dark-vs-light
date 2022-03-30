@@ -1,87 +1,96 @@
 import {
-	getIsTest2Done,
+	getFinishedTest,
 	getSurveyState,
-	setAge,
-	setGender,
+	initSurvey,
 	SurveyState,
 } from '@features/testSlice';
 import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
-import { Container, GoNextButton } from '@components';
-import { ChangeEvent, useEffect } from 'react';
 import {
-	FormControlLabel,
-	PaletteMode,
-	Radio,
-	RadioGroup,
-	ThemeProvider,
-} from '@mui/material';
+	Container,
+	SelectGender,
+	GoNextButton,
+	InputAge,
+	SelectMoreMode,
+	StepIndicator,
+} from '@components';
+import React, { useEffect } from 'react';
+import { PaletteMode, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 import styles from '@styles/survey.module.scss';
+import { useRouter } from 'next/router';
 
 type Props = StateProps & DispatchProps;
 
 const Survey = ({
-	isTest2Done,
 	onChangeTheme,
-	onSetAge,
-	onSetGender,
 	surveyState,
+	onInitSurvey,
 	mode,
+	finishedTest,
 }: Props) => {
-	const { age, gender } = surveyState;
-	const insertAge = (e: ChangeEvent<HTMLInputElement>) => {
-		onSetAge(parseInt(e.target.value));
-	};
-
+	const router = useRouter();
+	const { age, gender, moreComfortableMode, moreReadableMode } = surveyState;
 	const isDisabled = () => {
 		if (!age) return true;
 		if (gender === undefined) return true;
+		if (!moreComfortableMode) return true;
+		if (!moreReadableMode) return true;
+		return false;
+	};
+
+	const goNext = async () => {
+		await router.replace('/result');
 	};
 
 	useEffect(() => {
-		// if (isTest2Done) {
-		//
-		// }
 		onChangeTheme(ThemeEnum.Usually);
-		onSetAge();
+		if (finishedTest === 2) {
+			onInitSurvey();
+		} else {
+			router.replace('/redirect');
+		}
 	}, []);
 
 	const theme = createTheme({
 		palette: {
 			primary: blue,
-			mode: mode,
+			mode,
+			...(mode === 'dark'
+				? {
+						text: {
+							secondary: '#FFFFFF',
+						},
+				  }
+				: {}),
 		},
 	});
 
 	return (
 		<ThemeProvider theme={theme}>
 			<Container>
-				<h1>간단한 질문 몇 가지만 할게요!</h1>
+				<button onClick={() => onChangeTheme(ThemeEnum.Toggle)}>
+					테마 바꾸기
+				</button>
+				<StepIndicator step={4} />
+				<h1 className={styles.emoji}>🥳</h1>
+				<h1 className={styles.title}>마지막 단계에요!</h1>
+				<p className={styles.description}>
+					정확한 결과를 위해
+					<br />
+					아래 질문에 답해주세요
+				</p>
 				<div className={styles.surveyContainer}>
-					<div>성별을 알려주세요</div>
-					<RadioGroup
-						row
-						aria-labelledby="demo-row-radio-buttons-group-label"
-						name="row-radio-buttons-group"
-						value={gender === 0 ? 'male' : gender === 1 ? 'female' : undefined}
-						onChange={(e) => onSetGender(parseInt(e.target.value))}
-					>
-						<FormControlLabel
-							value="female"
-							control={<Radio />}
-							label="남자"
-							color="primary"
-						/>
-						<FormControlLabel value="male" control={<Radio />} label="여자" />
-					</RadioGroup>
-					<input type={'number'} value={age} onChange={insertAge} />
+					<SelectGender />
+					<InputAge />
+					<SelectMoreMode />
 					<GoNextButton
-						goNext={() => console.log('다음')}
+						goNext={goNext}
 						body={'결과 보여주세요!'}
 						disabled={isDisabled()}
+						width={'100%'}
 					/>
 				</div>
 			</Container>
@@ -90,27 +99,25 @@ const Survey = ({
 };
 
 interface StateProps {
-	isTest2Done: boolean;
 	surveyState: SurveyState;
 	mode: PaletteMode;
+	finishedTest: number;
 }
 
 const mapStateToProps = (state: RootState) => ({
-	isTest2Done: getIsTest2Done(state),
 	surveyState: getSurveyState(state),
-	mode: getTheme(state) === ThemeEnum.Dark ? 'dark' : 'light',
+	mode: (getTheme(state) === ThemeEnum.Dark ? 'dark' : 'light') as PaletteMode,
+	finishedTest: getFinishedTest(state),
 });
 
 interface DispatchProps {
 	onChangeTheme: (theme: ThemeEnum) => void;
-	onSetAge: (age?: number) => void;
-	onSetGender: (gender: number) => void;
+	onInitSurvey: () => void;
 }
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
 	onChangeTheme: (theme: ThemeEnum) => dispatch(changeTheme(theme)),
-	onSetAge: (age?: number) => dispatch(setAge(age)),
-	onSetGender: (gender: number) => dispatch(setGender(gender)),
+	onInitSurvey: () => dispatch(initSurvey()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Survey);

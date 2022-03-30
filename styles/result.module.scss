@@ -1,0 +1,53 @@
+@import "variable.module";
+
+.resultBox {
+  display: block;
+  margin: 15px 0;
+}
+
+.emoji{
+  font-size: $emoji-size;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: $description-font-size;
+}
+
+.result__title {
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.result__description {
+  font-size: 20px;
+}
+
+@mixin mixin__modeText() {
+  display: inline-block;
+  padding: 3px 5px;
+}
+
+.modeText__dark {
+  @include mixin__modeText();
+  background-color: $default-black;
+  color: $default-white;
+
+  &__active {
+    @include mixin__modeText();
+    background-color: $default-black;
+    color: $active-color;
+  }
+}
+
+.modeText__light {
+  @include mixin__modeText();
+  background-color: $default-white;
+  color: black;
+
+  &__active {
+    @include mixin__modeText();
+    background-color: $default-white;
+    color: $active-color;
+  }
+}

@@ -43,7 +43,7 @@
 }
 
 .description {
-  font-size: 24px;
+  font-size: $description-font-size;
 }
 
 .questionText {
@@ -128,18 +128,6 @@
   font-size: 18px;
 }
 
-.tmpBold {
-  font-family: nanum_bold, serif;
-  font-size: 50px;
-  font-weight: bold;
-}
-
-.tmpRegular {
-  font-family: nanum_regular, serif;
-  font-size: 50px;
-}
-.tmpLight {
-  font-family: nanum_light, serif;
-  font-size: 50px;
-  font-weight: 100;
+.emoji {
+  font-size: $emoji-size;
 }

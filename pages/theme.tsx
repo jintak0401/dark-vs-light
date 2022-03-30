@@ -8,7 +8,7 @@ import {
 } from '@features/themeSlice';
 import React, { useEffect } from 'react';
 import styles from '@styles/survey.module.scss';
-import { Container, GoNextButton } from '@components/index';
+import { Container, GoNextButton, StepIndicator } from '@components/index';
 import { useRouter } from 'next/router';
 import { setUsuallyMode } from '@features/testSlice';
 
@@ -43,6 +43,7 @@ const Theme = ({
 
 	return (
 		<Container>
+			<StepIndicator step={1} />
 			<h1 className={styles.modeSelect__question}>
 				주로 어떤 모드를 이용하시나요?
 			</h1>

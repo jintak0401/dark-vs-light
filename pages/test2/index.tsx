@@ -1,14 +1,12 @@
-import { Container, GoNextButton, TestTemplate } from '@components';
+import { Container, GoNextButton, StepIndicator } from '@components';
 import { changeTheme, ThemeEnum } from '@features/themeSlice';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
 import { AppDispatch } from '@app/store';
 import {
 	defaultTimerTime,
-	getIsTest1Done,
-	getTestState,
+	getFinishedTest,
 	initTest,
-	TestState,
 	TestTypeEnum,
 } from '@features/testSlice';
 import styles from '@styles/test.module.scss';
@@ -16,7 +14,7 @@ import { useRouter } from 'next/router';
 
 type Props = StateProps & DispatchProps;
 
-const Test2 = ({ isTest1Done, onChangeTheme, onInitTest }: Props) => {
+const Test2 = ({ finishedTest, onChangeTheme, onInitTest }: Props) => {
 	const router = useRouter();
 
 	const goNext = async () => {
@@ -24,9 +22,9 @@ const Test2 = ({ isTest1Done, onChangeTheme, onInitTest }: Props) => {
 	};
 
 	useEffect(() => {
-		if (isTest1Done) {
+		if (finishedTest) {
 			onChangeTheme(ThemeEnum.Usually);
-			onInitTest(TestTypeEnum.Timer);
+			finishedTest === 1 && onInitTest(TestTypeEnum.Timer);
 		} else {
 			router.replace('/redirect');
 		}
@@ -34,6 +32,8 @@ const Test2 = ({ isTest1Done, onChangeTheme, onInitTest }: Props) => {
 
 	return (
 		<Container>
+			<StepIndicator step={3} />
+			<h1 className={styles.emoji}>😉</h1>
 			<h2 className={styles.description}>
 				이번에는{' '}
 				<strong className={styles.questionText__strong}>
@@ -41,19 +41,20 @@ const Test2 = ({ isTest1Done, onChangeTheme, onInitTest }: Props) => {
 				</strong>{' '}
 				안에 일치하는 단어들을 모두 골라주세요!
 			</h2>
-			<h1>😉</h1>
-			<p>이번 테스트가 마지막이에요! 힘내주세요</p>
+			<p className={styles.description}>
+				이번 테스트가 마지막이에요! 힘내주세요
+			</p>
 			<GoNextButton goNext={goNext} body={'시작할게요!'} />
 		</Container>
 	);
 };
 
 interface StateProps {
-	isTest1Done: boolean;
+	finishedTest: number;
 }
 
 const mapStateToProps = (state: RootState) => ({
-	isTest1Done: getIsTest1Done(state),
+	finishedTest: getFinishedTest(state),
 });
 
 interface DispatchProps {

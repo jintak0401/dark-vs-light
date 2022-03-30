@@ -1,9 +1,15 @@
-import { Container, GoNextButton, TestTemplate } from '@components';
+import {
+	Container,
+	GoNextButton,
+	StepIndicator,
+	TestTemplate,
+} from '@components';
 import { changeTheme, ThemeEnum } from '@features/themeSlice';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
 import { AppDispatch } from '@app/store';
 import {
+	getFinishedTest,
 	getTestState,
 	initTest,
 	setReady,
@@ -16,7 +22,13 @@ import { useRouter } from 'next/router';
 
 type Props = StateProps & DispatchProps;
 
-const Test1 = ({ onChangeTheme, testState, onSetReady, onInitTest }: Props) => {
+const Test1 = ({
+	finishedTest,
+	onChangeTheme,
+	testState,
+	onSetReady,
+	onInitTest,
+}: Props) => {
 	const router = useRouter();
 	const questionSet = ['비보', '바보', '바뵤', '뱌보', '뱌뵤', '바보'];
 	const ansSet = [1, 5];
@@ -34,12 +46,13 @@ const Test1 = ({ onChangeTheme, testState, onSetReady, onInitTest }: Props) => {
 
 	useEffect(() => {
 		onChangeTheme(ThemeEnum.Usually);
-		onInitTest(TestTypeEnum.StopWatch);
+		finishedTest === 0 && onInitTest(TestTypeEnum.StopWatch);
 		onSetReady(false);
 	}, []);
 
 	return (
 		<Container>
+			<StepIndicator step={2} />
 			<h2 className={styles.description}>
 				제시한 단어와 정확하게 일치하는 단어들을 모두 골라주세요!
 			</h2>
@@ -52,12 +65,13 @@ const Test1 = ({ onChangeTheme, testState, onSetReady, onInitTest }: Props) => {
 			</p>
 			<TestTemplate ansSet={ansSet} questionSet={questionSet} />
 			<div className={getWarningClassName()}>
-				정답여부는 테스트 중간에 알려드리지 않아요!
+				하나만 골라도 다음으로 넘어갈 수 있지만
 			</div>
+			<div className={getWarningClassName()}>정답임을 보장하지는 않아요!</div>
 			<GoNextButton
 				goNext={goNext}
 				body={'시작할게요!'}
-				disabled={!isSameList(ansSet, userAns)}
+				disabled={userAns.length === 0}
 			/>
 		</Container>
 	);
@@ -65,10 +79,12 @@ const Test1 = ({ onChangeTheme, testState, onSetReady, onInitTest }: Props) => {
 
 interface StateProps {
 	testState: TestState;
+	finishedTest: number;
 }
 
 const mapStateToProps = (state: RootState) => ({
 	testState: getTestState(state),
+	finishedTest: getFinishedTest(state),
 });
 
 interface DispatchProps {

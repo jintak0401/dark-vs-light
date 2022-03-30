@@ -1,4 +1,4 @@
-import { Container, GoNextButton, TestTemplate } from '@components';
+import { Container, StepIndicator, TestTemplate } from '@components';
 import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
@@ -31,15 +31,18 @@ const Test2Run = ({
 	const router = useRouter();
 	const [quests, setQuests] = useState<string[]>([]);
 	const [answers, setAnswers] = useState<number[]>([]);
-	const { testType, round, turn, timer } = testState;
+	const { testType, round, turn, timer, ready } = testState;
+
 	const goNext = async () => {
 		onRecordResult(theme);
 		const [tmpRound, tmpTurn] = [round, turn];
-		if (tmpRound === 5 && tmpTurn === 1) {
+		if (tmpRound == 5 && tmpTurn === 2) {
+			onChangeTheme(ThemeEnum.Toggle);
+		}
+		if (tmpRound === 5 && tmpTurn === 3) {
 			await router.replace('/survey');
 		} else {
 			onGoNextTurn();
-			onChangeTheme(ThemeEnum.Toggle);
 		}
 	};
 
@@ -54,7 +57,7 @@ const Test2Run = ({
 	}, [round, turn]);
 
 	useEffect(() => {
-		if (timer === 0) {
+		if (!ready && timer === 0) {
 			goNext();
 		}
 	}, [timer]);
@@ -67,6 +70,7 @@ const Test2Run = ({
 		<Container>
 			{round !== 6 && (
 				<React.Fragment>
+					<StepIndicator step={3} />
 					<div className={styles.questionContainer__withTimer}>
 						<p className={styles.questionText}>
 							<strong className={styles.questionText__strong}>

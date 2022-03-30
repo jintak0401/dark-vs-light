@@ -8,7 +8,7 @@ enum FontTypeEnum {
 }
 
 enum GenderEnum {
-	Male,
+	Male = 1,
 	Female,
 }
 
@@ -49,9 +49,11 @@ interface TestState {
 	timer: number;
 }
 
-interface TotalTestState extends TestResult, SurveyState, TestState {}
+interface TotalTestState extends TestResult, SurveyState, TestState {
+	testStep: number;
+}
 
-const defaultTimerTime = 20;
+const defaultTimerTime = 5;
 const initialState: TotalTestState = {
 	darkTime: [],
 	lightTime: [],
@@ -69,7 +71,18 @@ const initialState: TotalTestState = {
 	testType: TestTypeEnum.StopWatch,
 	ready: false,
 	timer: defaultTimerTime,
+	testStep: 0,
 };
+
+const getTestResult = createSelector(
+	[(state: RootState) => state.testReducer],
+	(state: TotalTestState): TestResult => ({
+		darkTime: state.darkTime,
+		lightTime: state.lightTime,
+		darkAnsResult: state.darkAnsResult,
+		lightAnsResult: state.lightAnsResult,
+	})
+);
 
 const getTestState = createSelector(
 	[(state: RootState) => state.testReducer],
@@ -97,22 +110,41 @@ const getSurveyState = createSelector(
 	})
 );
 
-const getIsTest1Done = createSelector(
+const getFinishedTest = createSelector(
 	[(state: RootState) => state.testReducer],
-	(state: TotalTestState) =>
-		state.lightAnsResult.length >= 3 && state.darkAnsResult.length >= 3
-);
-
-const getIsTest2Done = createSelector(
-	[(state: RootState) => state.testReducer],
-	(state: TotalTestState) =>
-		state.lightAnsResult.length === 6 && state.darkAnsResult.length === 6
+	(state: TotalTestState) => {
+		if (state.lightAnsResult.length === 6 && state.darkAnsResult.length === 6)
+			return 2;
+		else if (
+			state.lightAnsResult.length >= 3 &&
+			state.darkAnsResult.length >= 3
+		)
+			return 1;
+		else return 0;
+	}
 );
 
 const testSlice = createSlice({
 	name: 'test',
 	initialState,
 	reducers: {
+		initAll: (state) => {
+			state.darkTime = [];
+			state.lightTime = [];
+			state.darkAnsResult = [];
+			state.lightAnsResult = [];
+			state.usuallyMode = '';
+			state.startTime = '';
+			state.round = 0;
+			state.turn = 0;
+			state.testAns = [];
+			state.userAns = [];
+			state.fontType = FontTypeEnum.Light;
+			state.testType = TestTypeEnum.StopWatch;
+			state.ready = false;
+			state.timer = defaultTimerTime;
+			state.testStep = 0;
+		},
 		recordResult: (
 			state,
 			{ payload }: PayloadAction<ThemeEnum.Dark | ThemeEnum.Light>
@@ -140,11 +172,9 @@ const testSlice = createSlice({
 			state.startTime = JSON.stringify(new Date());
 		},
 		goNextTurn: (state) => {
-			state.turn++;
-			if (state.turn == 2) {
-				state.round++;
-				state.turn = 0;
-			}
+			state.testStep++;
+			state.turn = Math.floor(state.testStep / 3);
+			state.round = (state.testStep % 3) + 3 * Math.floor(state.testStep / 6);
 			switch (state.round) {
 				case 0:
 				case 3:
@@ -166,12 +196,13 @@ const testSlice = createSlice({
 			state.testType = payload || TestTypeEnum.StopWatch;
 			state.startTime = '';
 			state.round = payload === TestTypeEnum.Timer ? 3 : 0;
-			state.turn = 0;
+			state.turn = payload === TestTypeEnum.Timer ? 2 : 0;
 			state.fontType = FontTypeEnum.Light;
 			state.ready = true;
 			state.userAns = [];
 			state.darkAnsResult.length = payload === TestTypeEnum.Timer ? 3 : 0;
 			state.lightAnsResult.length = payload === TestTypeEnum.Timer ? 3 : 0;
+			state.testStep = payload === TestTypeEnum.Timer ? 6 : 0;
 		},
 		resetUserAns: (state) => {
 			state.userAns = [];
@@ -214,19 +245,26 @@ const testSlice = createSlice({
 		) => {
 			state.moreComfortableMode = payload === ThemeEnum.Dark ? 'dark' : 'light';
 		},
+		initSurvey: (state) => {
+			state.age = undefined;
+			state.gender = undefined;
+			state.moreComfortableMode = undefined;
+			state.moreReadableMode = undefined;
+		},
 	},
 });
 
 // state
-export type { TestState, TotalTestState, SurveyState };
+export type { TestState, TotalTestState, SurveyState, TestResult, AnsResult };
 
 // enum
-export { TestTypeEnum, FontTypeEnum };
+export { TestTypeEnum, FontTypeEnum, GenderEnum };
 
 const { actions, reducer: testReducer } = testSlice;
 
 // setter
 export const {
+	initAll,
 	recordResult,
 	setStart,
 	setReady,
@@ -241,12 +279,13 @@ export const {
 	setMoreComfortableMode,
 	setMoreReadableMode,
 	setUsuallyMode,
+	initSurvey,
 } = actions;
 
 // reducer
 export default testReducer;
 
 // getter
-export { getTestState, getIsTest1Done, getIsTest2Done, getSurveyState };
+export { getTestState, getFinishedTest, getSurveyState, getTestResult };
 
 export { defaultTimerTime };
