@@ -1,6 +1,6 @@
 import db from '@db';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { AnsResult, SurveyState, TestResult } from '@features/testSlice';
+import { AnsResult, GenderEnum, SurveyState, TestResult } from '@features/testSlice';
 
 interface FireBaseData {
 	a: string; // 나이
@@ -24,7 +24,7 @@ const getAnsResultToTemplate = (ansResult: AnsResult[]) => {
 		) => {
 			let tmp = ret;
 			tmp += `${cur.ansButNotPick}_${cur.notAnsButPick}`;
-			idx !== ansResult.length && (tmp += '_');
+			idx !== ansResult.length-1 && (tmp += '_');
 			return tmp;
 		},
 		''
@@ -35,7 +35,7 @@ const getTimeToTemplate = (time: number[]) => {
 	return time.reduce((ret: string, cur: number, idx: number) => {
 		let tmp = ret;
 		tmp += `${cur}`;
-		idx !== time.length && (tmp += '_');
+		idx !== time.length-1 && (tmp += '_');
 		return tmp;
 	}, '');
 };
@@ -119,7 +119,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			const a = String(req.body.age);
 			const d = getAnsResultToTemplate(req.body.darkAnsResult);
 			const t = getTimeToTemplate(req.body.darkTime);
-			const g = req.body.gender;
+			const g = req.body.gender === GenderEnum.Male;
 			const l = getAnsResultToTemplate(req.body.lightAnsResult);
 			const k = getTimeToTemplate(req.body.lightTime);
 			const c = new Date();
