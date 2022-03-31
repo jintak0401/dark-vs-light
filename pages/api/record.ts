@@ -135,6 +135,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			res.status(400).end();
 		}
 	} else if (req.method === 'GET') {
-		const result = await db.collection('result');
+		res.status(400).end();
 	}
 };
