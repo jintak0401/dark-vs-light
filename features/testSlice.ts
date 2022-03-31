@@ -41,6 +41,7 @@ interface SurveyState {
 	gender?: GenderEnum;
 	moreReadableMode?: string;
 	moreComfortableMode?: string;
+	device?: string;
 }
 
 interface TestState {
@@ -116,6 +117,7 @@ const getSurveyState = createSelector(
 		moreReadableMode: state.moreReadableMode,
 		moreComfortableMode: state.moreComfortableMode,
 		gender: state.gender,
+		device: state.device,
 	})
 );
 
@@ -272,11 +274,18 @@ const testSlice = createSlice({
 		) => {
 			state.moreComfortableMode = payload === ThemeEnum.Dark ? 'dark' : 'light';
 		},
+		setDevice: (
+			state,
+			{ payload }: PayloadAction<string>
+		) => {
+			state.moreComfortableMode = payload === 'computer' ? 'computer' : 'phone';
+		},
 		initSurvey: (state) => {
 			state.age = undefined;
 			state.gender = undefined;
 			state.moreComfortableMode = undefined;
 			state.moreReadableMode = undefined;
+			state.device = undefined;
 		},
 	},
 	extraReducers: {
@@ -313,6 +322,7 @@ export const {
 	setMoreComfortableMode,
 	setMoreReadableMode,
 	setUsuallyMode,
+	setDevice,
 	initSurvey,
 } = actions;
 

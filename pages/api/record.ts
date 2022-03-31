@@ -1,6 +1,8 @@
 import db from '@db';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { AnsResult, GenderEnum, SurveyState, TestResult } from '@features/testSlice';
+import { types } from 'sass';
+import Number = types.Number;
 
 interface FireBaseData {
 	a: string; // 나이
@@ -13,6 +15,7 @@ interface FireBaseData {
 	f: boolean; // moreComfortableMode --> true: 'dark', false: 'light'
 	r: boolean; // moreReadableMode --> true: 'dark', false: 'light'
 	u: boolean; // usuallyMode --> true: 'dark', false: 'light'
+	v: boolean; // device --> true: 폰, false: 컴퓨터
 }
 
 const getAnsResultToTemplate = (ansResult: AnsResult[]) => {
@@ -86,6 +89,7 @@ const isThereAllData = (data: any) => {
 		return false;
 	if (!(data.usuallyMode === 'dark' || data.usuallyMode === 'light'))
 		return false;
+	if (!(data.device === 'phone' || data.dev === 'computer')) return false;
 	return true;
 };
 
@@ -110,25 +114,45 @@ const getTemplateToTime = (t: string) => {
 	return ret;
 };
 
+const convertData2Collections = (data: TestResult & SurveyState):FireBaseData => {
+	const a = String(data.age);
+	const d = getAnsResultToTemplate(data.darkAnsResult);
+	const t = getTimeToTemplate(data.darkTime);
+	const g = data.gender === GenderEnum.Male;
+	const l = getAnsResultToTemplate(data.lightAnsResult);
+	const k = getTimeToTemplate(data.lightTime);
+	const c = new Date();
+	const f = data.moreComfortableMode === 'dark';
+	const r = data.moreReadableMode === 'dark';
+	const u = data.usuallyMode === 'dark';
+	const v = data.device === 'phone';
+
+	return { a, d, t, g, l, k, c, f, r, u, v };
+}
+
+const convertCollections2Data = (data: FireBaseData): any => {
+	const age= Number(data.a)
+	const darkAnsResult = getTemplateToAnsResult(data.d);
+	const darkTime = getTemplateToTime(data.t);
+	const gender = data.g ? 'male' : 'female';
+	const lightAnsResult = getTemplateToAnsResult(data.l);
+	const lightTime = getTemplateToTime(data.k);
+	const moreComfortableMode = data.f ? 'dark' : 'light';
+	const moreReadableMode = data.r ? 'dark' : 'light';
+	const usuallyMode = data.u ? 'dark' : 'light';
+	const device = data.v ? 'phone' : 'computer';
+
+	return {age, darkAnsResult, darkTime, gender, lightAnsResult, lightTime,
+	moreComfortableMode, moreReadableMode, usuallyMode, device};
+}
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
 		if (!isThereAllData(req.body)) {
 			res.status(400).end();
 		}
 		try {
-			const a = String(req.body.age);
-			const d = getAnsResultToTemplate(req.body.darkAnsResult);
-			const t = getTimeToTemplate(req.body.darkTime);
-			const g = req.body.gender === GenderEnum.Male;
-			const l = getAnsResultToTemplate(req.body.lightAnsResult);
-			const k = getTimeToTemplate(req.body.lightTime);
-			const c = new Date();
-			const f = req.body.moreComfortableMode === 'dark';
-			const r = req.body.moreReadableMode === 'dark';
-			const u = req.body.usuallyMode === 'dark';
-
-			const data: FireBaseData = { a, d, t, g, l, k, c, f, r, u };
-
+			const data = convertData2Collections(req.body);
 			const { id } = await db.collection('result').add(data);
 			res.status(200).json({ id });
 		} catch (e) {

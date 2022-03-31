@@ -13,7 +13,7 @@ import {
 	GoNextButton,
 	InputAge,
 	SelectMoreMode,
-	StepIndicator,
+	StepIndicator, SelectDevice
 } from '@components';
 import React, { useEffect } from 'react';
 import { PaletteMode, ThemeProvider } from '@mui/material';
@@ -32,8 +32,9 @@ const Survey = ({
 	finishedTest,
 }: Props) => {
 	const router = useRouter();
-	const { age, gender, moreComfortableMode, moreReadableMode } = surveyState;
+	const { device, age, gender, moreComfortableMode, moreReadableMode } = surveyState;
 	const isDisabled = () => {
+		if (!device) return true;
 		if (!age) return true;
 		if (gender === undefined) return true;
 		if (!moreComfortableMode) return true;
@@ -49,7 +50,8 @@ const Survey = ({
 		onChangeTheme(ThemeEnum.Usually);
 		if (finishedTest === 2) {
 			onInitSurvey();
-		} else {
+		}
+		else {
 			router.replace('/redirect');
 		}
 	}, []);
@@ -80,6 +82,7 @@ const Survey = ({
 					아래 질문에 답해주세요
 				</p>
 				<div className={styles.surveyContainer}>
+					<SelectDevice />
 					<SelectGender />
 					<InputAge />
 					<SelectMoreMode />

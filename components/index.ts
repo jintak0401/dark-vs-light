@@ -10,6 +10,7 @@ import RecommendSentence from '@components/recommendSentence';
 import Test1Result from '@components/test1Result';
 import Test2Result from '@components/test2Result';
 import RedirectSentence from '@components/redirectSentence';
+import SelectDevice from '@components/selectDevice';
 import MetaTags from '@components/metaTags';
 
 export {
@@ -25,5 +26,6 @@ export {
 	Test1Result,
 	Test2Result,
 	RedirectSentence,
+	SelectDevice,
 	MetaTags,
 };
