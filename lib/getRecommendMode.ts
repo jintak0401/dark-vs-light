@@ -78,7 +78,8 @@ const getModePoint = (correctRatio: number[], averageTime: number) => {
 	const a = -120 / 7,
 		b = 1800 / 49,
 		c = -1 / 7;
-	const test1 = (b / (averageTime - a) + c) * correctRatio[0];
+	const weight = (b / (averageTime - a) + c)
+	const test1 = (weight < 0.5 ? 0.5 : weight) * correctRatio[0];
 	return test1 + correctRatio[1];
 };
 
