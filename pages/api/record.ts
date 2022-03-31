@@ -112,7 +112,7 @@ const getTemplateToTime = (t: string) => {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'POST') {
-		if (isThereAllData(req.body)) {
+		if (!isThereAllData(req.body)) {
 			res.status(400).end();
 		}
 		try {
