@@ -70,13 +70,11 @@ const Test1 = ({
 				(총 몇개인지는 아무도 몰라요!)
 			</p>
 			<TestTemplate ansSet={ansSet} questionSet={questionSet} />
-			<div className={getWarningClassName()}>
-				하나만 골라도 다음으로 넘어갈 수 있지만
-			</div>
-			<div className={getWarningClassName()}>정답임을 보장하지는 않아요!</div>
+			<div className={getWarningClassName()}>모두 골랐다고 생각하시면</div>
+			<div className={getWarningClassName()}>다음 버튼을 눌러주세요</div>
 			<GoNextButton
 				goNext={goNext}
-				body={'시작할게요!'}
+				body={'시작할게요'}
 				disabled={userAns.length === 0}
 			/>
 		</Container>

@@ -114,7 +114,7 @@ const Result = ({
 			{!loading && recommendMode !== '' && (
 				<Fragment>
 					<h1 className={styles.emoji}>🧐</h1>
-					<h1>결과는!</h1>
+					<h1>결과는</h1>
 					<p className={styles.description}>
 						테스트 결과를 평균적으로 알려드릴게요!
 					</p>
