@@ -10,6 +10,7 @@
   padding: 10px 20px;
   border: solid 2px;
   margin: 10px 20px;
+  transition: 0.3s $animation all;
   @if $selcted {
     border-color: $active-color;
   }
