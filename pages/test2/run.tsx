@@ -19,6 +19,7 @@ import {
 	TestState,
 	TestTypeEnum,
 } from '@features/testSlice';
+import { handleRefreshAndGoBack } from '@lib/unloadCallback';
 
 type Props = StateProps & DispatchProps;
 
@@ -72,22 +73,15 @@ const Test2Run = ({
 		onChangeTheme(ThemeEnum.Current);
 		onInitTest(TestTypeEnum.Timer);
 		if (finishedTest === 0) router.replace('/redirect');
-
-		const unloadCallback = (event: BeforeUnloadEvent) => {
-			event.preventDefault();
-			event.returnValue = '';
-			return '';
-		};
-
-		window.addEventListener('beforeunload', unloadCallback);
-		return () => window.removeEventListener('beforeunload', unloadCallback);
 	}, []);
+
+	useEffect(() => handleRefreshAndGoBack(router));
 
 	return (
 		<Container>
 			{round !== 6 && (
 				<React.Fragment>
-					<StepIndicator step={3} />
+					<StepIndicator step={3} isTesting={true} />
 					<div className={styles.questionContainer__withTimer}>
 						<p className={styles.questionText}>
 							<strong className={styles.questionText__strong}>

@@ -30,6 +30,7 @@ import {
 } from '@lib/getRecommendMode';
 import styles from '@styles/result.module.scss';
 import { useAppDispatch } from '@app/hooks';
+import { handleRefreshAndGoBack } from '@lib/unloadCallback';
 
 type Props = StateProps & DispatchProps;
 
@@ -98,9 +99,6 @@ const Result = ({
 			event.returnValue = '';
 			return '';
 		};
-
-		window.addEventListener('beforeunload', unloadCallback);
-		return () => window.removeEventListener('beforeunload', unloadCallback);
 	}, []);
 
 	useEffect(() => {
@@ -108,6 +106,8 @@ const Result = ({
 			dispatch(requestRecord({ ...surveyState, ...testResult }));
 		}
 	}, [loading, recommendMode, recordDone]);
+
+	useEffect(() => handleRefreshAndGoBack(router));
 
 	return (
 		<Container>

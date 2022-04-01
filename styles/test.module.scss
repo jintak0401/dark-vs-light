@@ -18,6 +18,19 @@
   }
 }
 
+.testContainer {
+  width: 100%;
+  position: relative;
+}
+
+.testContainer__progress {
+  position: absolute;
+  left: 0;
+  top: -30px;
+  font-size: 14px;
+  color: var(--redColor);
+}
+
 .wordCell__light {
   @include mixin__wordCell(nanum_light);
 
@@ -47,8 +60,14 @@
 }
 
 .questionText {
+  position: relative;
+  display: inline-block;
   font-size: 22px;
   line-height: 1.5;
+  text-align: center;
+  min-width: 300px;
+  max-width: 80%;
+  margin: 22px auto;
 }
 
 .questionText__strong {

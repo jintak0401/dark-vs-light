@@ -37,8 +37,7 @@ const Test1 = ({
 	const { userAns } = testState;
 
 	const getWarningClassName = () => {
-		if (userAns.length === 0 || isSameList(ansSet, userAns))
-			return styles.warningText__inactive;
+		if (userAns.length === 0) return styles.warningText__inactive;
 		else return styles.warningText__active;
 	};
 
@@ -51,7 +50,7 @@ const Test1 = ({
 			router.replace('redirect');
 		} else {
 			onChangeTheme(ThemeEnum.Usually);
-			finishedTest === 0 && onInitTest(TestTypeEnum.StopWatch);
+			onInitTest(TestTypeEnum.StopWatch);
 		}
 		onSetReady(false);
 	}, []);

@@ -6,6 +6,7 @@ import {
 } from '@reduxjs/toolkit';
 import { ThemeEnum } from '@features/themeSlice';
 import axios from 'axios';
+import { testLength } from '@lib/testset';
 
 enum FontTypeEnum {
 	Light,
@@ -61,7 +62,7 @@ interface TotalTestState extends TestResult, SurveyState, TestState {
 	testStep: number;
 }
 
-const defaultTimerTime = 15;
+const defaultTimerTime = 9;
 const initialState: TotalTestState = {
 	darkTime: [],
 	lightTime: [],
@@ -124,11 +125,14 @@ const getSurveyState = createSelector(
 const getFinishedTest = createSelector(
 	[(state: RootState) => state.testReducer],
 	(state: TotalTestState) => {
-		if (state.lightAnsResult.length === 6 && state.darkAnsResult.length === 6)
+		if (
+			state.lightAnsResult.length === 2 * testLength &&
+			state.darkAnsResult.length === 2 * testLength
+		)
 			return 2;
 		else if (
-			state.lightAnsResult.length >= 3 &&
-			state.darkAnsResult.length >= 3
+			state.lightAnsResult.length >= testLength &&
+			state.darkAnsResult.length >= testLength
 		)
 			return 1;
 		else return 0;
@@ -178,7 +182,7 @@ const testSlice = createSlice({
 			{ payload }: PayloadAction<ThemeEnum.Dark | ThemeEnum.Light>
 		) => {
 			const time =
-				state.round < 3
+				state.round < testLength
 					? +new Date() - +new Date(JSON.parse(state.startTime))
 					: 0;
 			const ansButNotPick = state.testAns.filter(
@@ -189,10 +193,10 @@ const testSlice = createSlice({
 			).length;
 			const ansResult = { ansButNotPick, notAnsButPick };
 			if (payload == ThemeEnum.Dark) {
-				state.round < 3 && (state.darkTime[state.round] = time);
+				state.round < testLength && (state.darkTime[state.round] = time);
 				state.darkAnsResult[state.round] = ansResult;
 			} else {
-				state.round < 3 && (state.lightTime[state.round] = time);
+				state.round < testLength && (state.lightTime[state.round] = time);
 				state.lightAnsResult[state.round] = ansResult;
 			}
 		},
@@ -201,8 +205,10 @@ const testSlice = createSlice({
 		},
 		goNextTurn: (state) => {
 			state.testStep++;
-			state.turn = Math.floor(state.testStep / 3);
-			state.round = (state.testStep % 3) + 3 * Math.floor(state.testStep / 6);
+			state.turn = Math.floor(state.testStep / testLength);
+			state.round =
+				(state.testStep % testLength) +
+				testLength * Math.floor(state.testStep / (2 * testLength));
 			switch (state.round) {
 				case 0:
 				case 3:
@@ -223,14 +229,16 @@ const testSlice = createSlice({
 		initTest: (state, { payload }: PayloadAction<TestTypeEnum | undefined>) => {
 			state.testType = payload || TestTypeEnum.StopWatch;
 			state.startTime = '';
-			state.round = payload === TestTypeEnum.Timer ? 3 : 0;
+			state.round = payload === TestTypeEnum.Timer ? testLength : 0;
 			state.turn = payload === TestTypeEnum.Timer ? 2 : 0;
 			state.fontType = FontTypeEnum.Light;
 			state.ready = true;
 			state.userAns = [];
-			state.darkAnsResult.length = payload === TestTypeEnum.Timer ? 3 : 0;
-			state.lightAnsResult.length = payload === TestTypeEnum.Timer ? 3 : 0;
-			state.testStep = payload === TestTypeEnum.Timer ? 6 : 0;
+			state.darkAnsResult.length =
+				payload === TestTypeEnum.Timer ? testLength : 0;
+			state.lightAnsResult.length =
+				payload === TestTypeEnum.Timer ? testLength : 0;
+			state.testStep = payload === TestTypeEnum.Timer ? 2 * testLength : 0;
 			state.recordDone = false;
 		},
 		resetUserAns: (state) => {

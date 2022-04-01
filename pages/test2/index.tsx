@@ -11,6 +11,7 @@ import {
 } from '@features/testSlice';
 import styles from '@styles/test.module.scss';
 import { useRouter } from 'next/router';
+import { handleRefreshAndGoBack, unloadCallback } from '@lib/unloadCallback';
 
 type Props = StateProps & DispatchProps;
 
@@ -19,17 +20,18 @@ const Test2 = ({ finishedTest, onChangeTheme, onInitTest }: Props) => {
 
 	const goNext = async () => {
 		await router.push('/test2/run');
-		onInitTest(TestTypeEnum.Timer);
 	};
 
 	useEffect(() => {
 		if (finishedTest) {
 			onChangeTheme(ThemeEnum.Usually);
-			finishedTest >= 1 && onInitTest(TestTypeEnum.Timer);
+			onInitTest(TestTypeEnum.Timer);
 		} else {
 			router.replace('/redirect');
 		}
-	}, []);
+	});
+
+	useEffect(() => handleRefreshAndGoBack(router));
 
 	return (
 		<Container>

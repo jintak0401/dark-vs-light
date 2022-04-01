@@ -12,12 +12,9 @@ const testSet = [
 		'꿑쟵',
 		'꿀젬',
 		'꿀졤',
-		'꿑젬',
 		'꿑졤',
 		'꿀젭',
 		'꿀졥',
-		'꿑젭',
-		'꿑졥',
 	],
 	[
 		'범법',
@@ -27,29 +24,23 @@ const testSet = [
 		'법범',
 		'법볌',
 		'볍범',
-		'볍볌',
 		'범범',
 		'범볌',
 		'볌범',
 		'볌볌',
 		'법법',
 		'법볍',
-		'볍법',
-		'볍볍',
 	],
 	[
 		'찍먹',
 		'찍벅',
 		'직먹',
-		'직벅',
 		'찤먹',
 		'찍멐',
 		'찍멱',
 		'찎먹',
 		'찍몈',
 		'찍펵',
-		'칙먹',
-		'직멱',
 		'찍먺',
 		'찤멱',
 		'찎멱',
@@ -59,8 +50,8 @@ const testSet = [
 
 const ansStringSet = [testSet[0][0], testSet[1][0], testSet[2][0]];
 
-const ansUnit = 7;
-const testUnit = [ansUnit, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1];
+const ansUnit = 6;
+const testUnit = [ansUnit, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
 const getTestSet = (testType: TestTypeEnum, round: number): string[] => {
 	const ret = [];
@@ -78,4 +69,6 @@ const getTestAns = (round: number): string => {
 	return ansStringSet[round % ansStringSet.length];
 };
 
-export { ansUnit, getTestSet, getTestAns };
+const testLength = testSet.length;
+
+export { ansUnit, getTestSet, getTestAns, testLength };

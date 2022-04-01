@@ -1,5 +1,5 @@
 import { AnsResult } from '@features/testSlice';
-import { ansUnit } from '@lib/testset';
+import { ansUnit, testLength } from '@lib/testset';
 
 interface RecommendProps {
 	darkCorrectRatio: number[];
@@ -27,7 +27,7 @@ const getCorrectRatio = ({ darkAnsResult, lightAnsResult }: Test2Props) => {
 		lightPick = 0,
 		lightCorrect = 0;
 
-	for (let i = 0; i < 3; i++) {
+	for (let i = 0; i < testLength; i++) {
 		darkPick += ansUnit + darkAnsResult[i].notAnsButPick;
 		lightPick += ansUnit + lightAnsResult[i].notAnsButPick;
 		darkCorrect += ansUnit - darkAnsResult[i].ansButNotPick;
@@ -50,34 +50,34 @@ const getTest1Result = ({
 		lightTimeSum = 0;
 
 	const [darkCorrectRatio, lightCorrectRatio] = getCorrectRatio({
-		darkAnsResult: darkAnsResult.slice(0, 3),
-		lightAnsResult: lightAnsResult.slice(0, 3),
+		darkAnsResult: darkAnsResult.slice(0, testLength),
+		lightAnsResult: lightAnsResult.slice(0, testLength),
 	});
 
-	for (let i = 0; i < 3; i++) {
+	for (let i = 0; i < testLength; i++) {
 		darkTimeSum += darkTime[i];
 		lightTimeSum += lightTime[i];
 	}
 	return [
-		Number((darkTimeSum / 3000).toFixed(1)),
+		Number((darkTimeSum / (1000 * testLength)).toFixed(1)),
 		darkCorrectRatio,
-		Number((lightTimeSum / 3000).toFixed(1)),
+		Number((lightTimeSum / (1000 * testLength)).toFixed(1)),
 		lightCorrectRatio,
 	];
 };
 
 const getTest2Result = ({ darkAnsResult, lightAnsResult }: Test2Props) => {
 	return getCorrectRatio({
-		darkAnsResult: darkAnsResult.slice(3, 6),
-		lightAnsResult: lightAnsResult.slice(3, 6),
+		darkAnsResult: darkAnsResult.slice(testLength, 2 * testLength),
+		lightAnsResult: lightAnsResult.slice(testLength, 2 * testLength),
 	});
 };
 
-// 가중치: 0초 -> 2, 15초 -> 1, 40초 -> 0.5 인 유리함수
+// 가중치: 0초 -> 2, 10.5초 -> 1, 35초 -> 0.5 인 유리함수
 const getModePoint = (correctRatio: number[], averageTime: number) => {
-	const a = -120 / 7,
-		b = 1800 / 49,
-		c = -1 / 7;
+	const a = -105 / 11,
+		b = 2205 / 121,
+		c = 1 / 11;
 	const weight = b / (averageTime - a) + c;
 	const test1 = (weight < 0.5 ? 0.5 : weight) * correctRatio[0];
 	return test1 + correctRatio[1];
@@ -90,21 +90,21 @@ const getRecommendMode = ({
 	lightAverageTime,
 	usuallyMode,
 }: RecommendProps): string => {
-	// if (
-	// 	darkCorrectRatio[0] < 30 ||
-	// 	darkCorrectRatio[1] < 20 ||
-	// 	lightCorrectRatio[0] < 30 ||
-	// 	lightCorrectRatio[1] < 20 ||
-	// 	darkAverageTime >= 300 ||
-	// 	lightAverageTime >= 300
-	// ) {
-	// 	return '';
-	// }
+	if (
+		darkCorrectRatio[0] < 30 ||
+		darkCorrectRatio[1] < 10 ||
+		lightCorrectRatio[0] < 30 ||
+		lightCorrectRatio[1] < 10 ||
+		darkAverageTime >= 300 ||
+		lightAverageTime >= 300
+	) {
+		return '';
+	}
 
 	const darkPoint = getModePoint(darkCorrectRatio, darkAverageTime);
 	const lightPoint = getModePoint(lightCorrectRatio, lightAverageTime);
 
-	if (Math.abs(darkPoint - lightPoint) < 5) return usuallyMode;
+	if (Math.abs(darkPoint - lightPoint) < 3) return usuallyMode;
 	else if (darkPoint > lightPoint) return 'dark';
 	else return 'light';
 };

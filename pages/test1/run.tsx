@@ -8,9 +8,9 @@ import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { shuffle } from '@lib/shuffle';
-import { getTestAns, getTestSet } from '@lib/testset';
+import { getTestAns, getTestSet, testLength } from '@lib/testset';
 import styles from '@styles/test.module.scss';
 import {
 	getFinishedTest,
@@ -23,6 +23,7 @@ import {
 	TestState,
 	TestTypeEnum,
 } from '@features/testSlice';
+import { handleRefreshAndGoBack, unloadCallback } from '@lib/unloadCallback';
 
 type Props = StateProps & DispatchProps;
 
@@ -43,10 +44,10 @@ const Test1Run = ({
 	const goNext = async () => {
 		onRecordResult(theme);
 		const [tmpRound, tmpTurn] = [round, turn];
-		if (tmpRound === 2 && tmpTurn === 0) {
+		if (tmpRound === testLength - 1 && tmpTurn === 0) {
 			onChangeTheme(ThemeEnum.Toggle);
 		}
-		if (tmpRound === 2 && tmpTurn === 1) {
+		if (tmpRound === testLength - 1 && tmpTurn === 1) {
 			await router.replace('/test2');
 		} else {
 			onGoNextTurn();
@@ -56,7 +57,7 @@ const Test1Run = ({
 
 	useEffect(() => {
 		onSetReady(true);
-		if (round != 3) {
+		if (round != testLength) {
 			const [qSet, aSet] = shuffle(getTestSet(testType, round));
 			setQuests(qSet);
 			setAnswers(aSet);
@@ -70,31 +71,26 @@ const Test1Run = ({
 			onChangeTheme(ThemeEnum.Usually);
 			onInitTest(TestTypeEnum.StopWatch);
 		}
-
-		const unloadCallback = (event: BeforeUnloadEvent) => {
-			event.preventDefault();
-			event.returnValue = '';
-			return '';
-		};
-
-		window.addEventListener('beforeunload', unloadCallback);
-		return () => window.removeEventListener('beforeunload', unloadCallback);
 	}, []);
+
+	useEffect(() => handleRefreshAndGoBack(router));
 
 	return (
 		<Container>
-			{round !== 3 && (
-				<React.Fragment>
-					<StepIndicator step={2} />
-					<p className={styles.questionText}>
-						<strong className={styles.questionText__strong}>
-							{getTestAns(round)}
-						</strong>
-						을 모두 골라주세요
-					</p>
-					<TestTemplate ansSet={answers} questionSet={quests} />
-					<GoNextButton goNext={goNext} disabled={userAns.length === 0} />
-				</React.Fragment>
+			{round !== testLength && (
+				<Fragment>
+					<StepIndicator step={2} isTesting={true} />
+					<div className={styles.testContainer}>
+						<p className={styles.questionText}>
+							<strong className={styles.questionText__strong}>
+								{getTestAns(round)}
+							</strong>
+							을 모두 골라주세요
+						</p>
+						<TestTemplate ansSet={answers} questionSet={quests} />
+						<GoNextButton goNext={goNext} disabled={userAns.length === 0} />
+					</div>
+				</Fragment>
 			)}
 		</Container>
 	);

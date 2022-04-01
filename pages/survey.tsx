@@ -22,6 +22,7 @@ import { createTheme } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 import styles from '@styles/survey.module.scss';
 import { useRouter } from 'next/router';
+import { handleRefreshAndGoBack } from '@lib/unloadCallback';
 
 type Props = StateProps & DispatchProps;
 
@@ -56,6 +57,8 @@ const Survey = ({
 			router.replace('/redirect');
 		}
 	}, []);
+
+	useEffect(() => handleRefreshAndGoBack(router));
 
 	const theme = createTheme({
 		palette: {
