@@ -1,11 +1,22 @@
 import { Container, GoNextButton } from '@components';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { changeTheme, ThemeEnum } from '@features/themeSlice';
+import { AppDispatch } from '@app/store';
+import { connect } from 'react-redux';
 
-const Redirect = () => {
+type Props = DispatchProps;
+
+const Redirect = ({ onChangeTheme }: Props) => {
 	const router = useRouter();
 	const goNext = async () => {
 		await router.replace('/');
 	};
+
+	useEffect(() => {
+		onChangeTheme(ThemeEnum.Usually);
+	}, []);
+
 	return (
 		<Container>
 			<h1 style={{ fontSize: '50px', marginBottom: '0' }}>😣</h1>
@@ -15,4 +26,13 @@ const Redirect = () => {
 	);
 };
 
-export default Redirect;
+interface DispatchProps {
+	onChangeTheme: (themeEnum: ThemeEnum.Usually) => void;
+}
+
+const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
+	onChangeTheme: (themeEnum: ThemeEnum.Usually) =>
+		dispatch(changeTheme(themeEnum)),
+});
+
+export default connect(null, mapDispatchToProps)(Redirect);

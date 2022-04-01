@@ -274,11 +274,8 @@ const testSlice = createSlice({
 		) => {
 			state.moreComfortableMode = payload === ThemeEnum.Dark ? 'dark' : 'light';
 		},
-		setDevice: (
-			state,
-			{ payload }: PayloadAction<string>
-		) => {
-			state.moreComfortableMode = payload === 'computer' ? 'computer' : 'phone';
+		setDevice: (state, { payload }: PayloadAction<string>) => {
+			state.device = payload === 'computer' ? 'computer' : 'phone';
 		},
 		initSurvey: (state) => {
 			state.age = undefined;

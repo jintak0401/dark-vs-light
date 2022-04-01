@@ -78,7 +78,7 @@ const getModePoint = (correctRatio: number[], averageTime: number) => {
 	const a = -120 / 7,
 		b = 1800 / 49,
 		c = -1 / 7;
-	const weight = (b / (averageTime - a) + c)
+	const weight = b / (averageTime - a) + c;
 	const test1 = (weight < 0.5 ? 0.5 : weight) * correctRatio[0];
 	return test1 + correctRatio[1];
 };
@@ -90,16 +90,16 @@ const getRecommendMode = ({
 	lightAverageTime,
 	usuallyMode,
 }: RecommendProps): string => {
-	if (
-		darkCorrectRatio[0] < 30 ||
-		darkCorrectRatio[1] < 20 ||
-		lightCorrectRatio[0] < 30 ||
-		lightCorrectRatio[1] < 20 ||
-		darkAverageTime >= 300 ||
-		lightAverageTime >= 300
-	) {
-		return '';
-	}
+	// if (
+	// 	darkCorrectRatio[0] < 30 ||
+	// 	darkCorrectRatio[1] < 20 ||
+	// 	lightCorrectRatio[0] < 30 ||
+	// 	lightCorrectRatio[1] < 20 ||
+	// 	darkAverageTime >= 300 ||
+	// 	lightAverageTime >= 300
+	// ) {
+	// 	return '';
+	// }
 
 	const darkPoint = getModePoint(darkCorrectRatio, darkAverageTime);
 	const lightPoint = getModePoint(lightCorrectRatio, lightAverageTime);

@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<Fragment>
 			<MetaTags />
-			<PersistGate persistor={persistor}>
+			<PersistGate loading={null} persistor={persistor}>
 				<Component {...pageProps} />
 			</PersistGate>
 		</Fragment>

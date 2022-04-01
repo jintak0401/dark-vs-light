@@ -1,8 +1,11 @@
 import db from '@db';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { AnsResult, GenderEnum, SurveyState, TestResult } from '@features/testSlice';
-import { types } from 'sass';
-import Number = types.Number;
+import {
+	AnsResult,
+	GenderEnum,
+	SurveyState,
+	TestResult,
+} from '@features/testSlice';
 
 interface FireBaseData {
 	a: string; // 나이
@@ -18,7 +21,46 @@ interface FireBaseData {
 	v: boolean; // device --> true: 폰, false: 컴퓨터
 }
 
-const getAnsResultToTemplate = (ansResult: AnsResult[]) => {
+interface ResultData {
+	age: number;
+	darkAnsResult: AnsResult[];
+	darkTime: number[];
+	gender: string;
+	lightAnsResult: AnsResult[];
+	lightTime: number[];
+	moreComfortableMode: string;
+	moreReadableMode: string;
+	usuallyMode: string;
+	device: string;
+}
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+	if (req.method === 'POST') {
+		if (!isThereAllData(req.body)) {
+			return res.status(400).end();
+		}
+		try {
+			const data = convertData2Collections(req.body);
+			const { id } = await db.collection('result').add(data);
+			res.status(200).json({ id });
+		} catch (e) {
+			return res.status(400).end();
+		}
+	} else if (req.method === 'GET') {
+		try {
+			const results = (await db.collection('result').get()).docs.map(
+				(result) => {
+					const data = result.data();
+					return convertCollections2Data(data as FireBaseData);
+				}
+			);
+			res.status(200).send(results);
+		} catch (e) {
+			res.status(400).end();
+		}
+	}
+};
+function getAnsResultToTemplate(ansResult: AnsResult[]) {
 	return ansResult.reduce(
 		(
 			ret: string,
@@ -27,23 +69,23 @@ const getAnsResultToTemplate = (ansResult: AnsResult[]) => {
 		) => {
 			let tmp = ret;
 			tmp += `${cur.ansButNotPick}_${cur.notAnsButPick}`;
-			idx !== ansResult.length-1 && (tmp += '_');
+			idx !== ansResult.length - 1 && (tmp += '_');
 			return tmp;
 		},
 		''
 	);
-};
+}
 
-const getTimeToTemplate = (time: number[]) => {
+function getTimeToTemplate(time: number[]) {
 	return time.reduce((ret: string, cur: number, idx: number) => {
 		let tmp = ret;
 		tmp += `${cur}`;
-		idx !== time.length-1 && (tmp += '_');
+		idx !== time.length - 1 && (tmp += '_');
 		return tmp;
 	}, '');
-};
+}
 
-const isThereAllData = (data: any) => {
+function isThereAllData(data: any) {
 	if (typeof data.age !== 'number') return false;
 	if (!data.hasOwnProperty('darkAnsResult')) return false;
 	else {
@@ -89,32 +131,32 @@ const isThereAllData = (data: any) => {
 		return false;
 	if (!(data.usuallyMode === 'dark' || data.usuallyMode === 'light'))
 		return false;
-	if (!(data.device === 'phone' || data.dev === 'computer')) return false;
+	if (!(data.device === 'phone' || data.device === 'computer')) return false;
 	return true;
-};
+}
 
-const getTemplateToAnsResult = (d: string) => {
+function getTemplateToAnsResult(d: string) {
 	const splitResult = d.split('_');
 	const ret = [];
 	for (let i = 0; i < splitResult.length; i += 2) {
 		ret.push({
-			ansButNotPick: Number(splitResult[i]),
-			notAnsButPick: Number(splitResult[i + 1]),
+			ansButNotPick: parseInt(splitResult[i]),
+			notAnsButPick: parseInt(splitResult[i + 1]),
 		});
 	}
 	return ret;
-};
+}
 
 const getTemplateToTime = (t: string) => {
 	const splitResult = t.split('_');
 	const ret = [];
 	for (const _t of splitResult) {
-		ret.push(Number(_t));
+		ret.push(parseInt(_t));
 	}
 	return ret;
 };
 
-const convertData2Collections = (data: TestResult & SurveyState):FireBaseData => {
+function convertData2Collections(data: TestResult & SurveyState): FireBaseData {
 	const a = String(data.age);
 	const d = getAnsResultToTemplate(data.darkAnsResult);
 	const t = getTimeToTemplate(data.darkTime);
@@ -130,8 +172,8 @@ const convertData2Collections = (data: TestResult & SurveyState):FireBaseData =>
 	return { a, d, t, g, l, k, c, f, r, u, v };
 }
 
-const convertCollections2Data = (data: FireBaseData): any => {
-	const age= Number(data.a)
+function convertCollections2Data(data: FireBaseData): ResultData {
+	const age = parseInt(data.a);
 	const darkAnsResult = getTemplateToAnsResult(data.d);
 	const darkTime = getTemplateToTime(data.t);
 	const gender = data.g ? 'male' : 'female';
@@ -142,23 +184,16 @@ const convertCollections2Data = (data: FireBaseData): any => {
 	const usuallyMode = data.u ? 'dark' : 'light';
 	const device = data.v ? 'phone' : 'computer';
 
-	return {age, darkAnsResult, darkTime, gender, lightAnsResult, lightTime,
-	moreComfortableMode, moreReadableMode, usuallyMode, device};
+	return {
+		age,
+		darkAnsResult,
+		darkTime,
+		gender,
+		lightAnsResult,
+		lightTime,
+		moreComfortableMode,
+		moreReadableMode,
+		usuallyMode,
+		device,
+	};
 }
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-	if (req.method === 'POST') {
-		if (!isThereAllData(req.body)) {
-			res.status(400).end();
-		}
-		try {
-			const data = convertData2Collections(req.body);
-			const { id } = await db.collection('result').add(data);
-			res.status(200).json({ id });
-		} catch (e) {
-			res.status(400).end();
-		}
-	} else if (req.method === 'GET') {
-		res.status(400).end();
-	}
-};
