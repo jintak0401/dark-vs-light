@@ -104,7 +104,7 @@ const getRecommendMode = ({
 	const darkPoint = getModePoint(darkCorrectRatio, darkAverageTime);
 	const lightPoint = getModePoint(lightCorrectRatio, lightAverageTime);
 
-	if (Math.abs(darkPoint - lightPoint) < 3) return usuallyMode;
+	if (darkPoint === lightPoint) return usuallyMode;
 	else if (darkPoint > lightPoint) return 'dark';
 	else return 'light';
 };
