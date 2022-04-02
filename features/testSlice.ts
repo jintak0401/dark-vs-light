@@ -62,7 +62,7 @@ interface TotalTestState extends TestResult, SurveyState, TestState {
 	testStep: number;
 }
 
-const defaultTimerTime = 1;
+const defaultTimerTime = 9;
 const initialState: TotalTestState = {
 	darkTime: [],
 	lightTime: [],
