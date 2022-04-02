@@ -1,5 +1,10 @@
 import React, { ChangeEvent } from 'react';
-import { GenderEnum, getSurveyState, setDevice, setGender } from '@features/testSlice';
+import {
+	GenderEnum,
+	getSurveyState,
+	setDevice,
+	setGender,
+} from '@features/testSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
@@ -31,9 +36,15 @@ const SelectDevice = ({ onSetDevice }: Props) => {
 						color="primary"
 					/>
 					<FormControlLabel
+						value={'tablet'}
+						control={<Radio />}
+						label="태블릿"
+						color="primary"
+					/>
+					<FormControlLabel
 						value={'computer'}
 						control={<Radio />}
-						label={"컴퓨터"}
+						label={'컴퓨터'}
 						color="primary"
 					/>
 				</RadioGroup>

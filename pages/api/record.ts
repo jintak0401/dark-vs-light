@@ -18,7 +18,7 @@ interface FireBaseData {
 	f: boolean; // moreComfortableMode --> true: 'dark', false: 'light'
 	r: boolean; // moreReadableMode --> true: 'dark', false: 'light'
 	u: boolean; // usuallyMode --> true: 'dark', false: 'light'
-	v: boolean; // device --> true: 폰, false: 컴퓨터
+	v: string; // device --> p: 폰, c: 컴퓨터, t: 태블릿
 }
 
 interface ResultData {
@@ -131,7 +131,14 @@ function isThereAllData(data: any) {
 		return false;
 	if (!(data.usuallyMode === 'dark' || data.usuallyMode === 'light'))
 		return false;
-	if (!(data.device === 'phone' || data.device === 'computer')) return false;
+	if (
+		!(
+			data.device === 'phone' ||
+			data.device === 'computer' ||
+			data.device === 'tablet'
+		)
+	)
+		return false;
 	return true;
 }
 
@@ -167,7 +174,8 @@ function convertData2Collections(data: TestResult & SurveyState): FireBaseData {
 	const f = data.moreComfortableMode === 'dark';
 	const r = data.moreReadableMode === 'dark';
 	const u = data.usuallyMode === 'dark';
-	const v = data.device === 'phone';
+	const v =
+		data.device === 'phone' ? 'p' : data.device === 'computer' ? 'c' : 't';
 
 	return { a, d, t, g, l, k, c, f, r, u, v };
 }
@@ -182,7 +190,8 @@ function convertCollections2Data(data: FireBaseData): ResultData {
 	const moreComfortableMode = data.f ? 'dark' : 'light';
 	const moreReadableMode = data.r ? 'dark' : 'light';
 	const usuallyMode = data.u ? 'dark' : 'light';
-	const device = data.v ? 'phone' : 'computer';
+	const device =
+		data.v === 'p' ? 'phone' : data.v === 'c' ? 'computer' : 'tablet';
 
 	return {
 		age,

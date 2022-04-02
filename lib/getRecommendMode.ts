@@ -73,10 +73,10 @@ const getTest2Result = ({ darkAnsResult, lightAnsResult }: Test2Props) => {
 	});
 };
 
-// 가중치: 0초 -> 2, 10.5초 -> 1, 35초 -> 0.5 인 유리함수
+// 가중치: 0초 -> 2, 9초 -> 1, 30초 -> 0.5 인 유리함수
 const getModePoint = (correctRatio: number[], averageTime: number) => {
-	const a = -105 / 11,
-		b = 2205 / 121,
+	const a = -90 / 11,
+		b = 1890 / 121,
 		c = 1 / 11;
 	const weight = b / (averageTime - a) + c;
 	const test1 = (weight < 0.5 ? 0.5 : weight) * correctRatio[0];
