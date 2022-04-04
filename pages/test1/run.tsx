@@ -58,7 +58,6 @@ const Test1Run = ({
 	useEffect(() => {
 		onSetReady(true);
 		if (round != testLength) {
-			console.log('run1', testType);
 			const [qSet, aSet] = shuffle(getTestSet(testType, round));
 			setQuests(qSet);
 			setAnswers(aSet);
