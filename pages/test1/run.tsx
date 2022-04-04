@@ -58,6 +58,7 @@ const Test1Run = ({
 	useEffect(() => {
 		onSetReady(true);
 		if (round != testLength) {
+			console.log('run1', testType);
 			const [qSet, aSet] = shuffle(getTestSet(testType, round));
 			setQuests(qSet);
 			setAnswers(aSet);
@@ -83,7 +84,7 @@ const Test1Run = ({
 					<div className={styles.testContainer}>
 						<p className={styles.questionText}>
 							<strong className={styles.questionText__strong}>
-								{getTestAns(round)}
+								{getTestAns(testType, round)}
 							</strong>
 							을 모두 골라주세요
 						</p>

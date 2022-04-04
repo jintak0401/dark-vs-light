@@ -9,7 +9,7 @@ const MetaTags = () => {
 				content="다크모드와 라이트 모드 중, 나한테 맞는 모드는?"
 			/>
 			<link rel="canonical" href="https://dark-vs-light.vercel.app/" />
-			<link rel="icon" href="/icon.ico" />
+			<link rel="icon" href="/favicon2.ico" />
 			<meta name="robots" content="index, follow" />
 			<meta
 				name="keywords"

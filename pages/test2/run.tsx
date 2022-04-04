@@ -85,7 +85,7 @@ const Test2Run = ({
 					<div className={styles.questionContainer__withTimer}>
 						<p className={styles.questionText}>
 							<strong className={styles.questionText__strong}>
-								{getTestAns(round)}
+								{getTestAns(testType, round)}
 							</strong>
 							을 모두 골라주세요
 						</p>
