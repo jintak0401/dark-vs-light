@@ -36,6 +36,7 @@ const Survey = ({
 	const router = useRouter();
 	const { device, age, gender, moreComfortableMode, moreReadableMode } =
 		surveyState;
+	const {admin} = router.query;
 	const isDisabled = () => {
 		if (!device) return true;
 		if (!age) return true;
@@ -53,7 +54,7 @@ const Survey = ({
 		onChangeTheme(ThemeEnum.Usually);
 		if (finishedTest === 2) {
 			onInitSurvey();
-		} else {
+		} else if(!admin) {
 			router.replace('/redirect');
 		}
 	}, []);
