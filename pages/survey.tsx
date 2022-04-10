@@ -64,7 +64,7 @@ const Survey = ({
 		onChangeTheme(ThemeEnum.Usually);
 		if (finishedTest === 2) {
 			onInitSurvey();
-		} else {
+		} else  {
 			router.replace('/redirect');
 		}
 	}, []);
