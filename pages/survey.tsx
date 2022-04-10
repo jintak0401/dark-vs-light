@@ -15,6 +15,8 @@ import {
 	SelectMoreMode,
 	StepIndicator,
 	SelectDevice,
+	SelectFontSize,
+	SelectHowOften,
 } from '@components';
 import React, { useEffect } from 'react';
 import { PaletteMode, ThemeProvider } from '@mui/material';
@@ -34,14 +36,23 @@ const Survey = ({
 	finishedTest,
 }: Props) => {
 	const router = useRouter();
-	const { device, age, gender, moreComfortableMode, moreReadableMode } =
-		surveyState;
+	const {
+		device,
+		age,
+		gender,
+		moreComfortableMode,
+		moreReadableMode,
+		fontSize,
+		howOften,
+	} = surveyState;
 	const isDisabled = () => {
 		if (!device) return true;
 		if (!age) return true;
 		if (!gender) return true;
 		if (!moreComfortableMode) return true;
 		if (!moreReadableMode) return true;
+		if (!fontSize) return true;
+		if (!howOften) return true;
 		return false;
 	};
 
@@ -89,6 +100,8 @@ const Survey = ({
 					<SelectDevice />
 					<SelectGender />
 					<InputAge />
+					<SelectFontSize />
+					<SelectHowOften />
 					<SelectMoreMode />
 					<GoNextButton
 						goNext={goNext}

@@ -11,7 +11,7 @@ import {
 } from '@features/testSlice';
 import styles from '@styles/test.module.scss';
 import { useRouter } from 'next/router';
-import { handleRefreshAndGoBack, unloadCallback } from '@lib/unloadCallback';
+import { handleRefreshAndGoBack } from '@lib/unloadCallback';
 
 type Props = StateProps & DispatchProps;
 

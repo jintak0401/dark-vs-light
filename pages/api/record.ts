@@ -19,6 +19,8 @@ interface FireBaseData {
 	r: boolean; // moreReadableMode --> true: 'dark', false: 'light'
 	u: boolean; // usuallyMode --> true: 'dark', false: 'light'
 	v: string; // device --> p: 폰, c: 컴퓨터, t: 태블릿
+	h: string; // howOften
+	z: string; // fontSize
 }
 
 interface ResultData {
@@ -32,6 +34,8 @@ interface ResultData {
 	moreReadableMode: string;
 	usuallyMode: string;
 	device: string;
+	howOften: number;
+	fontSize: number;
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -139,6 +143,9 @@ function isThereAllData(data: any) {
 		)
 	)
 		return false;
+
+	if (typeof data.howOften !== 'number') return false;
+	if (typeof data.fontSize !== 'number') return false;
 	return true;
 }
 
@@ -176,8 +183,10 @@ function convertData2Collections(data: TestResult & SurveyState): FireBaseData {
 	const u = data.usuallyMode === 'dark';
 	const v =
 		data.device === 'phone' ? 'p' : data.device === 'computer' ? 'c' : 't';
+	const h = String(data.howOften);
+	const z = String(data.fontSize);
 
-	return { a, d, t, g, l, k, c, f, r, u, v };
+	return { a, d, t, g, l, k, c, f, r, u, v, h, z };
 }
 
 function convertCollections2Data(data: FireBaseData): ResultData {
@@ -192,6 +201,8 @@ function convertCollections2Data(data: FireBaseData): ResultData {
 	const usuallyMode = data.u ? 'dark' : 'light';
 	const device =
 		data.v === 'p' ? 'phone' : data.v === 'c' ? 'computer' : 'tablet';
+	const howOften = parseInt(data.h);
+	const fontSize = parseInt(data.z);
 
 	return {
 		age,
@@ -204,5 +215,7 @@ function convertCollections2Data(data: FireBaseData): ResultData {
 		moreReadableMode,
 		usuallyMode,
 		device,
+		howOften,
+		fontSize,
 	};
 }

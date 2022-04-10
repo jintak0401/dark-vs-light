@@ -94,11 +94,6 @@ const Result = ({
 			);
 			setLoading(false);
 		}
-		const unloadCallback = (event: BeforeUnloadEvent) => {
-			event.preventDefault();
-			event.returnValue = '';
-			return '';
-		};
 	}, []);
 
 	useEffect(() => {

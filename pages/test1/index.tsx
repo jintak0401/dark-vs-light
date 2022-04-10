@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import { useEffect } from 'react';
 import { AppDispatch } from '@app/store';
 import {
-	getFinishedTest,
 	getSurveyState,
 	getTestState,
 	initTest,
@@ -17,14 +16,12 @@ import {
 	TestState,
 	TestTypeEnum,
 } from '@features/testSlice';
-import { isSameList } from '@lib/utils';
 import styles from '@styles/test.module.scss';
 import { useRouter } from 'next/router';
 
 type Props = StateProps & DispatchProps;
 
 const Test1 = ({
-	finishedTest,
 	usuallyMode,
 	onChangeTheme,
 	testState,
@@ -69,8 +66,9 @@ const Test1 = ({
 				(총 몇개인지는 아무도 몰라요!)
 			</p>
 			<TestTemplate ansSet={ansSet} questionSet={questionSet} />
-			<div className={getWarningClassName()}>모두 골랐다고 생각하시면</div>
-			<div className={getWarningClassName()}>다음 버튼을 눌러주세요</div>
+			<div className={getWarningClassName()}>
+				모두 고르셨으면 버튼을 눌러주세요
+			</div>
 			<GoNextButton
 				goNext={goNext}
 				body={'시작할게요'}
@@ -82,13 +80,11 @@ const Test1 = ({
 
 interface StateProps {
 	testState: TestState;
-	finishedTest: number;
 	usuallyMode: string;
 }
 
 const mapStateToProps = (state: RootState) => ({
 	testState: getTestState(state),
-	finishedTest: getFinishedTest(state),
 	usuallyMode: getSurveyState(state).usuallyMode,
 });
 

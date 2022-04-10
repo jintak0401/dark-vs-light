@@ -12,6 +12,8 @@ import Test2Result from '@components/test2Result';
 import RedirectSentence from '@components/redirectSentence';
 import SelectDevice from '@components/selectDevice';
 import MetaTags from '@components/metaTags';
+import SelectFontSize from '@components/selectFontSize';
+import SelectHowOften from '@components/selectHowOften';
 
 export {
 	Container,
@@ -28,4 +30,6 @@ export {
 	RedirectSentence,
 	SelectDevice,
 	MetaTags,
+	SelectFontSize,
+	SelectHowOften,
 };

@@ -1,4 +1,4 @@
-import { NextRouter, useRouter } from 'next/router';
+import { NextRouter } from 'next/router';
 
 const unloadCallback = (event: BeforeUnloadEvent) => {
 	event.preventDefault();

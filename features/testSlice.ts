@@ -36,6 +36,7 @@ interface TestResult {
 	lightAnsResult: AnsResult[];
 }
 
+const defaultFontSize = 20;
 interface SurveyState {
 	usuallyMode: string;
 	age?: number;
@@ -43,6 +44,8 @@ interface SurveyState {
 	moreReadableMode?: string;
 	moreComfortableMode?: string;
 	device?: string;
+	fontSize: number;
+	howOften?: number;
 }
 
 interface TestState {
@@ -82,6 +85,7 @@ const initialState: TotalTestState = {
 	timer: defaultTimerTime,
 	testStep: 0,
 	recordDone: false,
+	fontSize: defaultFontSize,
 };
 
 const getTestResult = createSelector(
@@ -119,6 +123,8 @@ const getSurveyState = createSelector(
 		moreComfortableMode: state.moreComfortableMode,
 		gender: state.gender,
 		device: state.device,
+		fontSize: state.fontSize,
+		howOften: state.howOften,
 	})
 );
 
@@ -285,12 +291,20 @@ const testSlice = createSlice({
 		setDevice: (state, { payload }: PayloadAction<string>) => {
 			state.device = payload === 'computer' ? 'computer' : 'phone';
 		},
+		setFontSize: (state, { payload }: PayloadAction<number>) => {
+			state.fontSize = payload;
+		},
+		setHowOften: (state, { payload }: PayloadAction<number>) => {
+			state.howOften = payload;
+		},
 		initSurvey: (state) => {
 			state.age = undefined;
 			state.gender = undefined;
 			state.moreComfortableMode = undefined;
 			state.moreReadableMode = undefined;
 			state.device = undefined;
+			state.fontSize = defaultFontSize;
+			state.howOften = NaN;
 		},
 	},
 	extraReducers: {
@@ -328,6 +342,8 @@ export const {
 	setMoreReadableMode,
 	setUsuallyMode,
 	setDevice,
+	setFontSize,
+	setHowOften,
 	initSurvey,
 } = actions;
 
@@ -340,4 +356,4 @@ export default testReducer;
 // getter
 export { getTestState, getFinishedTest, getSurveyState, getTestResult };
 
-export { defaultTimerTime };
+export { defaultTimerTime, defaultFontSize };

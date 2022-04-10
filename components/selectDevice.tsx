@@ -1,10 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import {
-	GenderEnum,
-	getSurveyState,
-	setDevice,
-	setGender,
-} from '@features/testSlice';
+import { GenderEnum, getSurveyState, setDevice } from '@features/testSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';

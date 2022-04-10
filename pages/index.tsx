@@ -7,7 +7,6 @@ import { useEffect } from 'react';
 import { GoNextButton, StepIndicator } from '@components';
 import { useRouter } from 'next/router';
 import { initAll } from '@features/testSlice';
-import Head from 'next/head';
 
 type Props = StateProps & DispatchProps;
 

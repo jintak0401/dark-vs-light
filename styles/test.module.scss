@@ -1,6 +1,6 @@
 @import "variable.module";
 
-@mixin mixin__wordCell($font, $fontsize: 20px, $selcted: false) {
+@mixin mixin__wordCell($font, $fontsize: 20px, $selected: false) {
   font-family: $font;
   font-size: $fontsize;
   border-radius: $border-radius;
@@ -11,7 +11,7 @@
   border: solid 2px;
   margin: 10px 20px;
   transition: 0.3s $animation all;
-  @if $selcted {
+  @if $selected {
     border-color: $active-color;
   }
   @else {

@@ -23,7 +23,7 @@ import {
 	TestState,
 	TestTypeEnum,
 } from '@features/testSlice';
-import { handleRefreshAndGoBack, unloadCallback } from '@lib/unloadCallback';
+import { handleRefreshAndGoBack } from '@lib/unloadCallback';
 
 type Props = StateProps & DispatchProps;
 
