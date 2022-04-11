@@ -28,10 +28,10 @@ const getCorrectRatio = ({ darkAnsResult, lightAnsResult }: Test2Props) => {
 		lightCorrect = 0;
 
 	for (let i = 0; i < testLength; i++) {
-		darkPick += ansUnit + darkAnsResult[i].notAnsButPick;
-		lightPick += ansUnit + lightAnsResult[i].notAnsButPick;
-		darkCorrect += ansUnit - darkAnsResult[i].ansButNotPick;
-		lightCorrect += ansUnit - lightAnsResult[i].ansButNotPick;
+		darkPick += ansUnit[i] + darkAnsResult[i].notAnsButPick;
+		lightPick += ansUnit[i] + lightAnsResult[i].notAnsButPick;
+		darkCorrect += ansUnit[i] - darkAnsResult[i].ansButNotPick;
+		lightCorrect += ansUnit[i] - lightAnsResult[i].ansButNotPick;
 	}
 	return [
 		Math.ceil((darkCorrect / darkPick) * 100),

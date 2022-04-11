@@ -48,7 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			const { id } = await db.collection('result').add(data);
 			res.status(200).json({ id });
 		} catch (e) {
-			return res.status(400).end();
+			res.status(400).end();
 		}
 	} else if (req.method === 'GET') {
 		try {

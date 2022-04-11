@@ -6,6 +6,7 @@ import { createStore } from '@reduxjs/toolkit';
 import { persistStore } from 'redux-persist';
 import { Fragment } from 'react';
 import { MetaTags } from '@components';
+import Script from 'next/script';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const store = createStore(persistedReducer);
@@ -13,6 +14,19 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	return (
 		<Fragment>
+			<Script
+				strategy="lazyOnload"
+				src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+			/>
+			<Script id="ga-analytics">
+				{`
+			     window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');	
+				`}
+			</Script>
 			<MetaTags />
 			<PersistGate loading={null} persistor={persistor}>
 				<Component {...pageProps} />

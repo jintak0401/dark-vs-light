@@ -95,12 +95,22 @@ const ansStringSet = [
 	[testSet2[0][0], testSet2[1][0], testSet2[2][0]],
 ];
 
-const ansUnit = 6;
-const testUnit = [ansUnit, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+const ansUnit = [6, 7, 5];
+const testUnit1 = [
+	[ansUnit[0], 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[ansUnit[1], 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[ansUnit[2], 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
+
+const testUnit2 = [
+	[ansUnit[2], 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[ansUnit[1], 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[ansUnit[0], 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
 
 const getTestSet = (testType: TestTypeEnum, round: number): string[] => {
 	const ret = [];
-	const unit = testUnit;
+	const unit = round < 3 ? testUnit1[round] : testUnit2[round - 3];
 	const qSet = (testType == 0 ? testSet1 : testSet2)[round % testSet1.length];
 	for (let i = 0; i < qSet.length; i++) {
 		for (let j = 0; j < unit[i]; j++) {
