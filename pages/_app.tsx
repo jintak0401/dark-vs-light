@@ -4,29 +4,28 @@ import '@styles/globals.scss';
 import { PersistGate } from 'redux-persist/integration/react';
 import { createStore } from '@reduxjs/toolkit';
 import { persistStore } from 'redux-persist';
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import { MetaTags } from '@components';
-import { useRouter } from 'next/router';
-import * as ga from '@lib/ga';
-
+import Script from 'next/script';
 function MyApp({ Component, pageProps }: AppProps) {
 	const store = createStore(persistedReducer);
 	const persistor = persistStore(store);
-	const router = useRouter();
-
-	useEffect(() => {
-		const handleRouteChange = (url) => {
-			ga.pageview(url);
-		};
-		router.events.on('routeChangeComplete', handleRouteChange);
-
-		return () => {
-			router.events.off('routeChangeComplete', handleRouteChange);
-		};
-	}, [router.events]);
 
 	return (
 		<Fragment>
+			<Script
+				async={true}
+				src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+			/>
+			<Script id="ga-analytics">
+				{`
+			     window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');	
+				`}
+			</Script>
 			<MetaTags />
 			<PersistGate loading={null} persistor={persistor}>
 				<Component {...pageProps} />
