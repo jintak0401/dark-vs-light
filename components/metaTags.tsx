@@ -4,6 +4,13 @@ const MetaTags = () => {
 	return (
 		<Head>
 			<title>다크모드 VS 라이트모드</title>
+
+			{/*SEO*/}
+			<meta
+				name="google-site-verification"
+				content="zh9uV2DUEcsHPc-LFa6yYTfbvpC1mSv_vALvXZW0bk8"
+			/>
+
 			<meta
 				name="description"
 				content="다크모드와 라이트 모드 중, 나한테 맞는 모드는?"
