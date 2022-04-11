@@ -8,8 +8,8 @@ import { Fragment, useEffect } from 'react';
 import { MetaTags } from '@components';
 import { useRouter } from 'next/router';
 import * as gtag from '@lib/gtag';
-
-const isProduction = process.env.NODE_ENV === 'production';
+import Script from 'next/script';
+import { GA_TRACKING_ID } from '@lib/gtag';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const store = createStore(persistedReducer);
@@ -18,17 +18,35 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	useEffect(() => {
 		const handleRouteChange = (url: URL) => {
-			/* invoke analytics function only for production */
-			if (isProduction) gtag.pageview(url);
+			gtag.pageview(url);
 		};
 		router.events.on('routeChangeComplete', handleRouteChange);
+
 		return () => {
 			router.events.off('routeChangeComplete', handleRouteChange);
 		};
 	}, [router.events]);
+
 	return (
 		<Fragment>
 			<MetaTags />
+			<Script
+				src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+				strategy="afterInteractive"
+			/>
+			<Script
+				id="google-analytics"
+				strategy="afterInteractive"
+				dangerouslySetInnerHTML={{
+					__html: `
+				  window.dataLayer = window.dataLayer || [];
+				  function gtag(){window.dataLayer.push(arguments);}
+				  gtag('js', new Date());
+
+				  gtag('config', "${GA_TRACKING_ID}");
+				`,
+				}}
+			/>
 			<PersistGate loading={null} persistor={persistor}>
 				<Component {...pageProps} />
 			</PersistGate>
