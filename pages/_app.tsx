@@ -15,10 +15,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<Fragment>
 			<Script
-				strategy="lazyOnload"
+				strategy="afterInteractive"
 				src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
 			/>
-			<Script id="ga-analytics">
+			<Script strategy="afterInteractive" id="ga-analytics">
 				{`
 			     window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
