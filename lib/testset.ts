@@ -90,6 +90,13 @@ const testSet2 = [
 	],
 ];
 
+const practiceTestSet = [
+	['바보', '비보', '뱌보', '바뵤', '바브', '비브'],
+	['감각', '감갹', '걈각', '걈갹', '감긱', '김각'],
+];
+
+const practiceTestUnit = [3, 2, 2, 2, 2, 1];
+
 const ansStringSet = [
 	[testSet1[0][0], testSet1[1][0], testSet1[2][0]],
 	[testSet2[0][0], testSet2[1][0], testSet2[2][0]],
@@ -124,6 +131,29 @@ const getTestAns = (testType: TestTypeEnum, round: number): string => {
 	return ansStringSet[testType][round % ansStringSet[0].length];
 };
 
+const getPracticeTestSet = (num: number): string[] => {
+	const ret = [];
+	const qSet = practiceTestSet[num];
+
+	for (let i = 0; i < qSet.length; i++) {
+		for (let j = 0; j < practiceTestUnit[i]; j++) {
+			ret.push(qSet[i]);
+		}
+	}
+	return ret;
+};
+
+const getPracticeTestAns = (num: number): string => {
+	return practiceTestSet[num][0];
+};
+
 const testLength = testSet1.length;
 
-export { ansUnit, getTestSet, getTestAns, testLength };
+export {
+	ansUnit,
+	getTestSet,
+	getTestAns,
+	testLength,
+	getPracticeTestSet,
+	getPracticeTestAns,
+};
