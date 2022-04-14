@@ -24,7 +24,7 @@ const Home = ({ onChangeTheme, onInitAll }: Props) => {
 
 	return (
 		<Fragment>
-			{/*<MetaTags />*/}
+			<MetaTags />
 			<Container>
 				<StepIndicator step={0} />
 				<h1 className={styles.emoji}>🧐</h1>

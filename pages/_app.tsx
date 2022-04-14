@@ -48,7 +48,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 				`,
 				}}
 			/>
-			<MetaTags />
 			<PersistGate loading={null} persistor={persistor}>
 				<Component {...pageProps} />
 			</PersistGate>
