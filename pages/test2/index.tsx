@@ -35,7 +35,7 @@ const Test2 = ({ finishedTest, onChangeTheme, onInitTest }: Props) => {
 
 	return (
 		<Fragment>
-			<MetaTags append={'설명2'} />
+			<MetaTags title={'다크모드 VS 라이트모드 | 설명2'} />
 			<Container>
 				<StepIndicator step={3} />
 				<h1 className={styles.emoji}>😉</h1>

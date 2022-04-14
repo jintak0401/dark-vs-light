@@ -1,6 +1,6 @@
 import { Container, GoNextButton, MetaTags } from '@components';
 import { useRouter } from 'next/router';
-import { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { changeTheme, ThemeEnum } from '@features/themeSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
@@ -19,7 +19,7 @@ const Redirect = ({ onChangeTheme }: Props) => {
 
 	return (
 		<Fragment>
-			<MetaTags append={'리다이렉션'} />
+			<MetaTags title={'다크모드 VS 라이트모드 | 리다이렉션'} />
 			<Container>
 				<h1 style={{ fontSize: '50px', marginBottom: '0' }}>😣</h1>
 				<h1>정상적인 경로로 접근하지 않으셨군요...</h1>

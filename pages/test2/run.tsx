@@ -79,7 +79,7 @@ const Test2Run = ({
 
 	return (
 		<Fragment>
-			<MetaTags append={'문제2'} />
+			<MetaTags title={'다크모드 VS 라이트모드 | 문제2'} />
 			<Container>
 				{round !== 6 && (
 					<React.Fragment>

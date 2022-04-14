@@ -78,7 +78,7 @@ const Test1Run = ({
 
 	return (
 		<Fragment>
-			<MetaTags append={'문제1'} />
+			<MetaTags title={'다크모드 VS 라이트모드 | 문제1'} />
 			<Container>
 				{round !== testLength && (
 					<Fragment>

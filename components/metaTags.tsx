@@ -1,14 +1,13 @@
 import Head from 'next/head';
 
 interface Props {
-	append?: string;
+	title: string;
 }
 
-const MetaTags = ({ append }: Props) => {
+const MetaTags = ({ title }: Props) => {
 	return (
 		<Head>
-			<title>다크모드 VS 라이트모드{append ? ` - ${append}` : ''}</title>
-
+			<title>{title}</title>
 			{/*SEO*/}
 			<meta
 				name="google-site-verification"

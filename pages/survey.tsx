@@ -88,7 +88,7 @@ const Survey = ({
 
 	return (
 		<Fragment>
-			<MetaTags append={'설문'} />
+			<MetaTags title={'다크모드 VS 라이트모드 | 설문'} />
 			<ThemeProvider theme={theme}>
 				<Container>
 					<StepIndicator step={4} />

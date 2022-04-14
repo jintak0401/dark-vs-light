@@ -3,7 +3,7 @@ import Container from '@components/container';
 import { AppDispatch } from '@app/store';
 import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { connect } from 'react-redux';
-import { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { GoNextButton, MetaTags, StepIndicator } from '@components';
 import { useRouter } from 'next/router';
 import { initAll } from '@features/testSlice';
@@ -24,7 +24,7 @@ const Home = ({ onChangeTheme, onInitAll }: Props) => {
 
 	return (
 		<Fragment>
-			<MetaTags />
+			<MetaTags title={'다크모드 VS 라이트모드'} />
 			<Container>
 				<StepIndicator step={0} />
 				<h1 className={styles.emoji}>🧐</h1>

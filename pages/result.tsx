@@ -22,7 +22,7 @@ import {
 import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
-import { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
 	getRecommendMode,
@@ -107,7 +107,7 @@ const Result = ({
 
 	return (
 		<Fragment>
-			<MetaTags append={'결과'} />
+			<MetaTags title={'다크모드 VS 라이트모드 | 결과'} />
 			<Container>
 				{!loading && recommendMode !== '' && (
 					<Fragment>
