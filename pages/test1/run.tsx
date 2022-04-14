@@ -1,6 +1,7 @@
 import {
 	Container,
 	GoNextButton,
+	MetaTags,
 	StepIndicator,
 	TestTemplate,
 } from '@components';
@@ -77,6 +78,7 @@ const Test1Run = ({
 
 	return (
 		<Container>
+			<MetaTags append={'문제1'} />
 			{round !== testLength && (
 				<Fragment>
 					<StepIndicator step={2} isTesting={true} />

@@ -1,9 +1,13 @@
 import Head from 'next/head';
 
-const MetaTags = () => {
+interface Props {
+	append?: string;
+}
+
+const MetaTags = ({ append }: Props) => {
 	return (
 		<Head>
-			<title>다크모드 VS 라이트모드</title>
+			<title>다크모드 VS 라이트모드{append ? ` - ${append}` : ''}</title>
 
 			{/*SEO*/}
 			<meta

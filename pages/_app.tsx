@@ -5,7 +5,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { createStore } from '@reduxjs/toolkit';
 import { persistStore } from 'redux-persist';
 import { Fragment, useEffect } from 'react';
-import { MetaTags } from '@components';
 import { useRouter } from 'next/router';
 import * as gtag from '@lib/gtag';
 import Script from 'next/script';
@@ -31,7 +30,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	return (
 		<Fragment>
-			<MetaTags />
 			<Script
 				src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
 				strategy="afterInteractive"

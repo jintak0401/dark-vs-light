@@ -1,6 +1,7 @@
 import {
 	Container,
 	GoNextButton,
+	MetaTags,
 	RecommendSentence,
 	RedirectSentence,
 	Test1Result,
@@ -106,6 +107,7 @@ const Result = ({
 
 	return (
 		<Container>
+			<MetaTags append={'결과'} />
 			{!loading && recommendMode !== '' && (
 				<Fragment>
 					<h1 className={styles.emoji}>🧐</h1>

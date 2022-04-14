@@ -4,7 +4,7 @@ import { AppDispatch } from '@app/store';
 import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
-import { GoNextButton, StepIndicator } from '@components';
+import { GoNextButton, MetaTags, StepIndicator } from '@components';
 import { useRouter } from 'next/router';
 import { initAll } from '@features/testSlice';
 
@@ -24,6 +24,7 @@ const Home = ({ onChangeTheme, onInitAll }: Props) => {
 
 	return (
 		<Container>
+			<MetaTags append={'홈'} />
 			<StepIndicator step={0} />
 			<h1 className={styles.emoji}>🧐</h1>
 			<h1 className={styles.title}>

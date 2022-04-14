@@ -1,6 +1,7 @@
 import {
 	Container,
 	GoNextButton,
+	MetaTags,
 	StepIndicator,
 	TestTemplate,
 } from '@components';
@@ -72,6 +73,7 @@ const Test1 = ({
 
 	return (
 		<Container>
+			<MetaTags append={'설명1'} />
 			<StepIndicator step={2} />
 			<h2 className={styles.description}>
 				제시한 단어와 정확하게 일치하는 단어들을 모두 골라주세요!

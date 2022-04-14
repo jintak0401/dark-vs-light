@@ -17,6 +17,7 @@ import {
 	SelectDevice,
 	SelectFontSize,
 	SelectHowOften,
+	MetaTags,
 } from '@components';
 import React, { useEffect } from 'react';
 import { PaletteMode, ThemeProvider } from '@mui/material';
@@ -64,7 +65,7 @@ const Survey = ({
 		onChangeTheme(ThemeEnum.Usually);
 		if (finishedTest === 2) {
 			onInitSurvey();
-		} else  {
+		} else {
 			router.replace('/redirect');
 		}
 	}, []);
@@ -88,6 +89,7 @@ const Survey = ({
 	return (
 		<ThemeProvider theme={theme}>
 			<Container>
+				<MetaTags append={'설문'} />
 				<StepIndicator step={4} />
 				<h1 className={styles.emoji}>🥳</h1>
 				<h1 className={styles.title}>마지막 단계에요!</h1>

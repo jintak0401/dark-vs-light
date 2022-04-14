@@ -1,4 +1,4 @@
-import { Container, StepIndicator, TestTemplate } from '@components';
+import { Container, MetaTags, StepIndicator, TestTemplate } from '@components';
 import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
@@ -79,6 +79,7 @@ const Test2Run = ({
 
 	return (
 		<Container>
+			<MetaTags append={'문제2'} />
 			{round !== 6 && (
 				<React.Fragment>
 					<StepIndicator step={3} isTesting={true} />

@@ -1,4 +1,4 @@
-import { Container, GoNextButton, StepIndicator } from '@components';
+import { Container, GoNextButton, MetaTags, StepIndicator } from '@components';
 import { changeTheme, ThemeEnum } from '@features/themeSlice';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
@@ -35,6 +35,7 @@ const Test2 = ({ finishedTest, onChangeTheme, onInitTest }: Props) => {
 
 	return (
 		<Container>
+			<MetaTags append={'설명2'} />
 			<StepIndicator step={3} />
 			<h1 className={styles.emoji}>😉</h1>
 			<h2 className={styles.description}>
