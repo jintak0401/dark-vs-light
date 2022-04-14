@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import * as gtag from '@lib/gtag';
 import Script from 'next/script';
 import { GA_TRACKING_ID } from '@lib/gtag';
+import { MetaTags } from '@components';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const store = createStore(persistedReducer);
@@ -47,6 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				`,
 				}}
 			/>
+			<MetaTags />
 			<PersistGate loading={null} persistor={persistor}>
 				<Component {...pageProps} />
 			</PersistGate>
