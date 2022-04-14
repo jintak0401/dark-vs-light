@@ -31,6 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	return (
 		<Fragment>
+			<MetaTags />
 			<Script
 				src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
 				strategy="afterInteractive"

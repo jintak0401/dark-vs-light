@@ -88,7 +88,7 @@ const Survey = ({
 
 	return (
 		<Fragment>
-			<MetaTags append={'설문'} />
+			{/*<MetaTags append={'설문'} />*/}
 			<ThemeProvider theme={theme}>
 				<Container>
 					<StepIndicator step={4} />

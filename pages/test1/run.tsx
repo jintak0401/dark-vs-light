@@ -78,7 +78,7 @@ const Test1Run = ({
 
 	return (
 		<Fragment>
-			<MetaTags append={'문제1'} />
+			{/*<MetaTags append={'문제1'} />*/}
 			<Container>
 				{round !== testLength && (
 					<Fragment>

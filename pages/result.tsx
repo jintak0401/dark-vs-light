@@ -107,7 +107,7 @@ const Result = ({
 
 	return (
 		<Fragment>
-			<MetaTags append={'결과'} />
+			{/*<MetaTags append={'결과'} />*/}
 			<Container>
 				{!loading && recommendMode !== '' && (
 					<Fragment>
