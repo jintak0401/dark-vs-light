@@ -19,7 +19,7 @@ import {
 	SelectHowOften,
 	MetaTags,
 } from '@components';
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { PaletteMode, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
@@ -87,33 +87,35 @@ const Survey = ({
 	});
 
 	return (
-		<ThemeProvider theme={theme}>
-			<Container>
-				<MetaTags append={'설문'} />
-				<StepIndicator step={4} />
-				<h1 className={styles.emoji}>🥳</h1>
-				<h1 className={styles.title}>마지막 단계에요!</h1>
-				<p className={styles.description}>
-					정확한 결과를 위해
-					<br />
-					아래 질문에 답해주세요
-				</p>
-				<div className={styles.surveyContainer}>
-					<SelectDevice />
-					<SelectGender />
-					<InputAge />
-					<SelectFontSize />
-					<SelectHowOften />
-					<SelectMoreMode />
-					<GoNextButton
-						goNext={goNext}
-						body={'결과 보여주세요!'}
-						disabled={isDisabled()}
-						width={'100%'}
-					/>
-				</div>
-			</Container>
-		</ThemeProvider>
+		<Fragment>
+			<MetaTags append={'설문'} />
+			<ThemeProvider theme={theme}>
+				<Container>
+					<StepIndicator step={4} />
+					<h1 className={styles.emoji}>🥳</h1>
+					<h1 className={styles.title}>마지막 단계에요!</h1>
+					<p className={styles.description}>
+						정확한 결과를 위해
+						<br />
+						아래 질문에 답해주세요
+					</p>
+					<div className={styles.surveyContainer}>
+						<SelectDevice />
+						<SelectGender />
+						<InputAge />
+						<SelectFontSize />
+						<SelectHowOften />
+						<SelectMoreMode />
+						<GoNextButton
+							goNext={goNext}
+							body={'결과 보여주세요!'}
+							disabled={isDisabled()}
+							width={'100%'}
+						/>
+					</div>
+				</Container>
+			</ThemeProvider>
+		</Fragment>
 	);
 };
 

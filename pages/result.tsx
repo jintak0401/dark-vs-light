@@ -106,43 +106,45 @@ const Result = ({
 	useEffect(() => handleRefreshAndGoBack(router));
 
 	return (
-		<Container>
+		<Fragment>
 			<MetaTags append={'결과'} />
-			{!loading && recommendMode !== '' && (
-				<Fragment>
-					<h1 className={styles.emoji}>🧐</h1>
-					<h1>결과는</h1>
-					<p className={styles.description}>
-						테스트 결과를 평균적으로 알려드릴게요!
-					</p>
-					<Test1Result
-						darkCorrectRatio={darkCorrectRatio[0]}
-						darkAverageTime={darkAverageTime}
-						lightCorrectRatio={lightCorrectRatio[0]}
-						lightAverageTime={lightAverageTime}
-						getModeTextClassName={getModeTextClassName}
-					/>
-					<Test2Result
-						darkCorrectRatio={darkCorrectRatio[1]}
-						lightCorrectRatio={lightCorrectRatio[1]}
-						getModeTextClassName={getModeTextClassName}
-					/>
-					<RecommendSentence
-						recommendMode={recommendMode}
-						getModeTextClassName={getModeTextClassName}
-					/>
-				</Fragment>
-			)}
-			{!loading && recommendMode === '' && (
-				<Fragment>
-					<RedirectSentence />
-					<GoNextButton
-						goNext={() => router.replace('/')}
-						body={'제대로 할게요'}
-					/>
-				</Fragment>
-			)}
-		</Container>
+			<Container>
+				{!loading && recommendMode !== '' && (
+					<Fragment>
+						<h1 className={styles.emoji}>🧐</h1>
+						<h1>결과는</h1>
+						<p className={styles.description}>
+							테스트 결과를 평균적으로 알려드릴게요!
+						</p>
+						<Test1Result
+							darkCorrectRatio={darkCorrectRatio[0]}
+							darkAverageTime={darkAverageTime}
+							lightCorrectRatio={lightCorrectRatio[0]}
+							lightAverageTime={lightAverageTime}
+							getModeTextClassName={getModeTextClassName}
+						/>
+						<Test2Result
+							darkCorrectRatio={darkCorrectRatio[1]}
+							lightCorrectRatio={lightCorrectRatio[1]}
+							getModeTextClassName={getModeTextClassName}
+						/>
+						<RecommendSentence
+							recommendMode={recommendMode}
+							getModeTextClassName={getModeTextClassName}
+						/>
+					</Fragment>
+				)}
+				{!loading && recommendMode === '' && (
+					<Fragment>
+						<RedirectSentence />
+						<GoNextButton
+							goNext={() => router.replace('/')}
+							body={'제대로 할게요'}
+						/>
+					</Fragment>
+				)}
+			</Container>
+		</Fragment>
 	);
 };
 

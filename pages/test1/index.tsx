@@ -7,7 +7,7 @@ import {
 } from '@components';
 import { changeTheme, ThemeEnum } from '@features/themeSlice';
 import { connect } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { AppDispatch } from '@app/store';
 import {
 	getSurveyState,
@@ -72,32 +72,34 @@ const Test1 = ({
 	}, [practiceNum]);
 
 	return (
-		<Container>
+		<Fragment>
 			<MetaTags append={'설명1'} />
-			<StepIndicator step={2} />
-			<h2 className={styles.description}>
-				제시한 단어와 정확하게 일치하는 단어들을 모두 골라주세요!
-				<br />
-				(총 몇개인지는 아무도 몰라요!)
-			</h2>
-			<p className={styles.questionText}>
-				2개의 예시문제 중 {practiceNum + 1}번째 예시 문제에요.&nbsp;
-				<strong className={styles.questionText__strong}>
-					{getPracticeTestAns(practiceNum)}
-				</strong>
-				{practiceNum ? '을' : '를'} 모두 골라주세요.
-				<br />
-			</p>
-			<TestTemplate ansSet={answers} questionSet={quests} />
-			<div className={getWarningClassName()}>
-				모두 고르셨으면 버튼을 눌러주세요
-			</div>
-			<GoNextButton
-				goNext={goNext}
-				body={practiceNum === 0 ? '다음 예시문제' : '테스트시작'}
-				disabled={userAns.length === 0}
-			/>
-		</Container>
+			<Container>
+				<StepIndicator step={2} />
+				<h2 className={styles.description}>
+					제시한 단어와 정확하게 일치하는 단어들을 모두 골라주세요!
+					<br />
+					(총 몇개인지는 아무도 몰라요!)
+				</h2>
+				<p className={styles.questionText}>
+					2개의 예시문제 중 {practiceNum + 1}번째 예시 문제에요.&nbsp;
+					<strong className={styles.questionText__strong}>
+						{getPracticeTestAns(practiceNum)}
+					</strong>
+					{practiceNum ? '을' : '를'} 모두 골라주세요.
+					<br />
+				</p>
+				<TestTemplate ansSet={answers} questionSet={quests} />
+				<div className={getWarningClassName()}>
+					모두 고르셨으면 버튼을 눌러주세요
+				</div>
+				<GoNextButton
+					goNext={goNext}
+					body={practiceNum === 0 ? '다음 예시문제' : '테스트시작'}
+					disabled={userAns.length === 0}
+				/>
+			</Container>
+		</Fragment>
 	);
 };
 

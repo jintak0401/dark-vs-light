@@ -3,7 +3,7 @@ import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { shuffle } from '@lib/shuffle';
 import { getTestAns, getTestSet } from '@lib/testset';
 import styles from '@styles/test.module.scss';
@@ -78,28 +78,30 @@ const Test2Run = ({
 	useEffect(() => handleRefreshAndGoBack(router));
 
 	return (
-		<Container>
+		<Fragment>
 			<MetaTags append={'문제2'} />
-			{round !== 6 && (
-				<React.Fragment>
-					<StepIndicator step={3} isTesting={true} />
-					<div className={styles.questionContainer__withTimer}>
-						<p className={styles.questionText}>
-							<strong className={styles.questionText__strong}>
-								{getTestAns(testType, round)}
-							</strong>
-							을 모두 골라주세요
-						</p>
-						<p className={styles.timer}>{timer}초</p>
-					</div>
-					<TestTemplate
-						ansSet={answers}
-						questionSet={quests}
-						needTimer={true}
-					/>
-				</React.Fragment>
-			)}
-		</Container>
+			<Container>
+				{round !== 6 && (
+					<React.Fragment>
+						<StepIndicator step={3} isTesting={true} />
+						<div className={styles.questionContainer__withTimer}>
+							<p className={styles.questionText}>
+								<strong className={styles.questionText__strong}>
+									{getTestAns(testType, round)}
+								</strong>
+								을 모두 골라주세요
+							</p>
+							<p className={styles.timer}>{timer}초</p>
+						</div>
+						<TestTemplate
+							ansSet={answers}
+							questionSet={quests}
+							needTimer={true}
+						/>
+					</React.Fragment>
+				)}
+			</Container>
+		</Fragment>
 	);
 };
 

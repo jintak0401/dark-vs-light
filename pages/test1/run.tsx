@@ -77,24 +77,26 @@ const Test1Run = ({
 	useEffect(() => handleRefreshAndGoBack(router));
 
 	return (
-		<Container>
+		<Fragment>
 			<MetaTags append={'문제1'} />
-			{round !== testLength && (
-				<Fragment>
-					<StepIndicator step={2} isTesting={true} />
-					<div className={styles.testContainer}>
-						<p className={styles.questionText}>
-							<strong className={styles.questionText__strong}>
-								{getTestAns(testType, round)}
-							</strong>
-							을 모두 골라주세요
-						</p>
-						<TestTemplate ansSet={answers} questionSet={quests} />
-						<GoNextButton goNext={goNext} disabled={userAns.length === 0} />
-					</div>
-				</Fragment>
-			)}
-		</Container>
+			<Container>
+				{round !== testLength && (
+					<Fragment>
+						<StepIndicator step={2} isTesting={true} />
+						<div className={styles.testContainer}>
+							<p className={styles.questionText}>
+								<strong className={styles.questionText__strong}>
+									{getTestAns(testType, round)}
+								</strong>
+								을 모두 골라주세요
+							</p>
+							<TestTemplate ansSet={answers} questionSet={quests} />
+							<GoNextButton goNext={goNext} disabled={userAns.length === 0} />
+						</div>
+					</Fragment>
+				)}
+			</Container>
+		</Fragment>
 	);
 };
 

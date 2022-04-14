@@ -6,7 +6,7 @@ import {
 	setUsuallyTheme,
 	ThemeEnum,
 } from '@features/themeSlice';
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import styles from '@styles/survey.module.scss';
 import {
 	Container,
@@ -47,28 +47,30 @@ const Theme = ({
 	};
 
 	return (
-		<Container>
+		<Fragment>
 			<MetaTags append={'테마'} />
-			<StepIndicator step={1} />
-			<h1 className={styles.modeSelect__question}>
-				주로 어떤 모드를 이용하시나요?
-			</h1>
-			<div className={styles.modeSelect}>
-				<div
-					className={getCellClassName(ThemeEnum.Dark)}
-					onClick={() => onChangeTheme(ThemeEnum.Dark)}
-				>
-					다크모드
+			<Container>
+				<StepIndicator step={1} />
+				<h1 className={styles.modeSelect__question}>
+					주로 어떤 모드를 이용하시나요?
+				</h1>
+				<div className={styles.modeSelect}>
+					<div
+						className={getCellClassName(ThemeEnum.Dark)}
+						onClick={() => onChangeTheme(ThemeEnum.Dark)}
+					>
+						다크모드
+					</div>
+					<div
+						className={getCellClassName(ThemeEnum.Light)}
+						onClick={() => onChangeTheme(ThemeEnum.Light)}
+					>
+						라이트모드
+					</div>
 				</div>
-				<div
-					className={getCellClassName(ThemeEnum.Light)}
-					onClick={() => onChangeTheme(ThemeEnum.Light)}
-				>
-					라이트모드
-				</div>
-			</div>
-			<GoNextButton goNext={goNext} />
-		</Container>
+				<GoNextButton goNext={goNext} />
+			</Container>
+		</Fragment>
 	);
 };
 
