@@ -1,7 +1,6 @@
 import {
 	Container,
 	GoNextButton,
-	MetaTags,
 	StepIndicator,
 	TestTemplate,
 } from '@components';
@@ -9,7 +8,7 @@ import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
-import { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { shuffle } from '@lib/shuffle';
 import { getTestAns, getTestSet, testLength } from '@lib/testset';
 import styles from '@styles/test.module.scss';
@@ -25,6 +24,7 @@ import {
 	TestTypeEnum,
 } from '@features/testSlice';
 import { handleRefreshAndGoBack } from '@lib/unloadCallback';
+import Head from 'next/head';
 
 type Props = StateProps & DispatchProps;
 
@@ -78,7 +78,9 @@ const Test1Run = ({
 
 	return (
 		<Fragment>
-			<MetaTags title={'다크모드 VS 라이트모드 | 문제1'} />
+			<Head>
+				<title>다크모드 vs 라이트모드 | 문제1</title>
+			</Head>
 			<Container>
 				{round !== testLength && (
 					<Fragment>

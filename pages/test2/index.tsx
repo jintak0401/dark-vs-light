@@ -1,7 +1,7 @@
-import { Container, GoNextButton, MetaTags, StepIndicator } from '@components';
+import { Container, GoNextButton, StepIndicator } from '@components';
 import { changeTheme, ThemeEnum } from '@features/themeSlice';
 import { connect } from 'react-redux';
-import { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { AppDispatch } from '@app/store';
 import {
 	defaultTimerTime,
@@ -12,6 +12,7 @@ import {
 import styles from '@styles/test.module.scss';
 import { useRouter } from 'next/router';
 import { handleRefreshAndGoBack } from '@lib/unloadCallback';
+import Head from 'next/head';
 
 type Props = StateProps & DispatchProps;
 
@@ -35,7 +36,9 @@ const Test2 = ({ finishedTest, onChangeTheme, onInitTest }: Props) => {
 
 	return (
 		<Fragment>
-			<MetaTags title={'다크모드 VS 라이트모드 | 설명2'} />
+			<Head>
+				<title>다크모드 vs 라이트모드 | 설명2</title>
+			</Head>
 			<Container>
 				<StepIndicator step={3} />
 				<h1 className={styles.emoji}>😉</h1>

@@ -1,7 +1,6 @@
 import {
 	Container,
 	GoNextButton,
-	MetaTags,
 	StepIndicator,
 	TestTemplate,
 } from '@components';
@@ -21,6 +20,7 @@ import styles from '@styles/test.module.scss';
 import { useRouter } from 'next/router';
 import { shuffle } from '@lib/shuffle';
 import { getPracticeTestAns, getPracticeTestSet } from '@lib/testset';
+import Head from 'next/head';
 
 type Props = StateProps & DispatchProps;
 
@@ -73,7 +73,9 @@ const Test1 = ({
 
 	return (
 		<Fragment>
-			<MetaTags title={'다크모드 VS 라이트모드 | 설명1'} />
+			<Head>
+				<title>다크모드 vs 라이트모드 | 설명1</title>
+			</Head>
 			<Container>
 				<StepIndicator step={2} />
 				<h2 className={styles.description}>

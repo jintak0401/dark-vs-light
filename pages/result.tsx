@@ -1,7 +1,6 @@
 import {
 	Container,
 	GoNextButton,
-	MetaTags,
 	RecommendSentence,
 	RedirectSentence,
 	Test1Result,
@@ -32,6 +31,7 @@ import {
 import styles from '@styles/result.module.scss';
 import { useAppDispatch } from '@app/hooks';
 import { handleRefreshAndGoBack } from '@lib/unloadCallback';
+import Head from 'next/head';
 
 type Props = StateProps & DispatchProps;
 
@@ -107,7 +107,9 @@ const Result = ({
 
 	return (
 		<Fragment>
-			<MetaTags title={'다크모드 VS 라이트모드 | 결과'} />
+			<Head>
+				<title>다크모드 vs 라이트모드 | 결과</title>
+			</Head>
 			<Container>
 				{!loading && recommendMode !== '' && (
 					<Fragment>

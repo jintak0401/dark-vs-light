@@ -8,14 +8,10 @@ import {
 } from '@features/themeSlice';
 import React, { Fragment, useEffect } from 'react';
 import styles from '@styles/survey.module.scss';
-import {
-	Container,
-	GoNextButton,
-	MetaTags,
-	StepIndicator,
-} from '@components/index';
+import { Container, GoNextButton, StepIndicator } from '@components/index';
 import { useRouter } from 'next/router';
 import { setUsuallyMode } from '@features/testSlice';
+import Head from 'next/head';
 
 type Props = StateProps & DispatchProps;
 
@@ -48,7 +44,9 @@ const Theme = ({
 
 	return (
 		<Fragment>
-			<MetaTags title={'다크모드 VS 라이트모드 | 테마'} />
+			<Head>
+				<title>다크모드 vs 라이트모드 | 테마</title>
+			</Head>
 			<Container>
 				<StepIndicator step={1} />
 				<h1 className={styles.modeSelect__question}>

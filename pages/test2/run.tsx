@@ -1,4 +1,4 @@
-import { Container, MetaTags, StepIndicator, TestTemplate } from '@components';
+import { Container, StepIndicator, TestTemplate } from '@components';
 import { changeTheme, getTheme, ThemeEnum } from '@features/themeSlice';
 import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
@@ -20,6 +20,7 @@ import {
 	TestTypeEnum,
 } from '@features/testSlice';
 import { handleRefreshAndGoBack } from '@lib/unloadCallback';
+import Head from 'next/head';
 
 type Props = StateProps & DispatchProps;
 
@@ -79,7 +80,9 @@ const Test2Run = ({
 
 	return (
 		<Fragment>
-			<MetaTags title={'다크모드 VS 라이트모드 | 문제2'} />
+			<Head>
+				<title>다크모드 vs 라이트모드 | 문제2</title>
+			</Head>
 			<Container>
 				{round !== 6 && (
 					<React.Fragment>

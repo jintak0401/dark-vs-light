@@ -1,13 +1,9 @@
 import Head from 'next/head';
 
-interface Props {
-	title: string;
-}
-
-const MetaTags = ({ title }: Props) => {
+const MetaTags = () => {
 	return (
 		<Head>
-			<title>{title}</title>
+			<title>{'다크모드 vs 라이트모드'}</title>
 			{/*SEO*/}
 			<meta
 				name="google-site-verification"

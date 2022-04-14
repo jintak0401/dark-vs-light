@@ -17,7 +17,6 @@ import {
 	SelectDevice,
 	SelectFontSize,
 	SelectHowOften,
-	MetaTags,
 } from '@components';
 import React, { Fragment, useEffect } from 'react';
 import { PaletteMode, ThemeProvider } from '@mui/material';
@@ -26,6 +25,7 @@ import { blue } from '@mui/material/colors';
 import styles from '@styles/survey.module.scss';
 import { useRouter } from 'next/router';
 import { handleRefreshAndGoBack } from '@lib/unloadCallback';
+import Head from 'next/head';
 
 type Props = StateProps & DispatchProps;
 
@@ -88,7 +88,9 @@ const Survey = ({
 
 	return (
 		<Fragment>
-			<MetaTags title={'다크모드 VS 라이트모드 | 설문'} />
+			<Head>
+				<title>다크모드 vs 라이트모드 | 설문</title>
+			</Head>
 			<ThemeProvider theme={theme}>
 				<Container>
 					<StepIndicator step={4} />
