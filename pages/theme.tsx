@@ -48,7 +48,7 @@ const Theme = ({
 
 	return (
 		<Fragment>
-			{/*<MetaTags append={'테마'} />*/}
+			<MetaTags append={'테마'} />
 			<Container>
 				<StepIndicator step={1} />
 				<h1 className={styles.modeSelect__question}>

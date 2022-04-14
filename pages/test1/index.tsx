@@ -73,7 +73,7 @@ const Test1 = ({
 
 	return (
 		<Fragment>
-			{/*<MetaTags append={'설명1'} />*/}
+			<MetaTags append={'설명1'} />
 			<Container>
 				<StepIndicator step={2} />
 				<h2 className={styles.description}>
