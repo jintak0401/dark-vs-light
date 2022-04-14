@@ -24,7 +24,7 @@ const Home = ({ onChangeTheme, onInitAll }: Props) => {
 
 	return (
 		<Container>
-			<MetaTags append={'홈'} />
+			<MetaTags />
 			<StepIndicator step={0} />
 			<h1 className={styles.emoji}>🧐</h1>
 			<h1 className={styles.title}>
