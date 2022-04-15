@@ -58,6 +58,7 @@
 
 .description {
   font-size: $description-font-size;
+  color: var(--titleFontColor);
 }
 
 .questionText {
@@ -69,6 +70,7 @@
   min-width: 300px;
   max-width: 80%;
   margin: 22px auto;
+  color: var(--titleFontColor);
 }
 
 .questionText__strong {

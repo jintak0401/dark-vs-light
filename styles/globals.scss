@@ -15,14 +15,16 @@ body {
 }
 
 html[data-theme="light"] {
-  --fontColor: black;
+  --fontColor: #444444;
+  --titleFontColor: #292929;
   --backgroundColor: white;
   --redColor: #FF0F0F;
   --greyColor: #E6E6E6;
 }
 
 html[data-theme="dark"] {
-  --fontColor: white;
+  --fontColor: #AAAAAA;
+  --titleFontColor: #e2e3eb;
   --backgroundColor: #121212;
   --redColor: #FF0F0F;
   --greyColor: rgba(255, 255, 255, 0.2);
