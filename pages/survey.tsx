@@ -9,14 +9,14 @@ import { AppDispatch } from '@app/store';
 import { connect } from 'react-redux';
 import {
 	Container,
-	SelectGender,
 	GoNextButton,
 	InputAge,
-	SelectMoreMode,
-	StepIndicator,
 	SelectDevice,
 	SelectFontSize,
+	SelectGender,
 	SelectHowOften,
+	SelectMoreMode,
+	StepIndicator,
 } from '@components';
 import React, { Fragment, useEffect } from 'react';
 import { PaletteMode, ThemeProvider } from '@mui/material';

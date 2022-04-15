@@ -23,6 +23,7 @@ enum ThemeEnum {
 	Dark,
 	Current,
 	Usually,
+	NotUsually,
 }
 
 const themeSlice = createSlice({
@@ -50,6 +51,9 @@ const themeSlice = createSlice({
 						'(prefers-color-scheme: dark)'
 					).matches;
 					state.theme = isDarkMode ? 'dark' : 'light';
+					break;
+				case ThemeEnum.NotUsually:
+					state.theme = state.usuallyTheme == 'dark' ? 'light' : 'dark';
 					break;
 				default:
 					break;

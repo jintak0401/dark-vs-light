@@ -43,8 +43,9 @@ const Test1 = ({
 	};
 
 	const goNext = async () => {
-		if (practiceNum == 1) await router.push('/test1/run');
-		else {
+		if (practiceNum == 1) {
+			await router.push('/test1/run');
+		} else {
 			setPracticeNum((prev) => prev + 1);
 		}
 	};

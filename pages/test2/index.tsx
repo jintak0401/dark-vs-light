@@ -25,8 +25,13 @@ const Test2 = ({ finishedTest, onChangeTheme, onInitTest }: Props) => {
 
 	useEffect(() => {
 		if (finishedTest) {
-			onChangeTheme(ThemeEnum.Usually);
+			onChangeTheme(ThemeEnum.NotUsually);
+			const timer = setTimeout(() => onChangeTheme(ThemeEnum.Usually), 1);
 			onInitTest(TestTypeEnum.Timer);
+
+			return () => {
+				clearTimeout(timer);
+			};
 		} else {
 			router.replace('/redirect');
 		}

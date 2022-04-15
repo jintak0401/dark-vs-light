@@ -69,8 +69,13 @@ const Test1Run = ({
 		if (usuallyMode === '') {
 			router.replace('redirect');
 		} else {
-			onChangeTheme(ThemeEnum.Usually);
+			onChangeTheme(ThemeEnum.NotUsually);
+			const timer = setTimeout(() => onChangeTheme(ThemeEnum.Usually), 1);
 			onInitTest(TestTypeEnum.StopWatch);
+
+			return () => {
+				clearTimeout(timer);
+			};
 		}
 	}, []);
 
