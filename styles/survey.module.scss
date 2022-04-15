@@ -2,7 +2,7 @@
 
 @mixin mixin__modeSelect__question() {
   text-align: center;
-  color: var(--fontColor);
+  color: var(--titleFontColor);
   transition: 0.3s $animation color;
   margin-bottom: 50px;
   word-break: keep-all;
@@ -68,6 +68,7 @@
 .title {
   width: 100%;
   text-align: center;
+  color: var(--titleFontColor);
 }
 
 @mixin mixin__modeLabel($fontcolor, $backgroundColor) {
@@ -107,4 +108,5 @@
   margin: 0;
   font-size: $description-font-size;
   line-height: 1.5;
+  color: var(--titleFontColor);
 }
