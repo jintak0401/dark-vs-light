@@ -41,10 +41,10 @@
 }
 
 .modeCell__dark {
-  @include mixin__modeCell(white, $default-black);
+  @include mixin__modeCell($dark-title-color, $default-black);
 
   &__selected {
-    @include mixin__modeCell(white, $default-black, false);
+    @include mixin__modeCell($dark-title-color, $default-black, false);
     border: solid 2px $active-color;
   }
 }
