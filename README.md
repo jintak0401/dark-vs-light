@@ -3,7 +3,7 @@
 다크모드와 라이트모드 중 어느 모드가 피로도와 가독성 면에서 좋은지 판단해주는 프로젝트
 
 #### [체험 사이트](https://dark-vs-light.vercel.app/)
-#### [결과 분석] 
+#### [결과 분석](https://github.com/jintak0401/HCI_Project1/wiki/%EA%B2%B0%EA%B3%BC-%EB%B6%84%EC%84%9D)
 
 ## 메인 페이지
 
